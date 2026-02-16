@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Barbearia/WEB.csproj" />
+  <Project Path="DOMAIN/DOMAIN.csproj" />
+  <Project Path="REPOSITORY/REPOSITORY.csproj" />
+  <Project Path="SERVICE/SERVICE.csproj" />
+</Solution>

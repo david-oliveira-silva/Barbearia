@@ -1,7 +1,11 @@
-﻿namespace DOMAIN.MODELS
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DOMAIN.MODELS
 {
     public class ClienteModel
     {
+        public int IdCliente { get; set; }
+        [Required]
         public string? Nome { get; set; }
         public string? Cpf { get; set; }
         public string? Email { get; set; }

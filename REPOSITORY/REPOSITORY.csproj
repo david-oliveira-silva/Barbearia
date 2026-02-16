@@ -7,9 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DATA\" />
-    <Folder Include="MAPEADORES\" />
-    <Folder Include="UTILS\" />
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="10.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DOMAIN\DOMAIN.csproj" />
   </ItemGroup>
 
 </Project>

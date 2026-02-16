@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="FACHADA\" />
-    <Folder Include="PROCESSO\" />
+    <ProjectReference Include="..\DOMAIN\DOMAIN.csproj" />
+    <ProjectReference Include="..\REPOSITORY\REPOSITORY.csproj" />
   </ItemGroup>
 
 </Project>

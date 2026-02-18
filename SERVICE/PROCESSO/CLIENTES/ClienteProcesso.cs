@@ -25,7 +25,10 @@ namespace SERVICE.PROCESSO.CLIENTES
                 cliente.Email = cliente.Email?.Trim();
                 _clienteMapeador.Atualizar(cliente);
             }
-            throw new ArgumentNullException("Cliente não encontrado");
+            else
+            {
+                throw new ArgumentNullException("Cliente não encontrado");
+            }
         }
 
         public void Excluir(ClienteModel cliente)
@@ -41,6 +44,12 @@ namespace SERVICE.PROCESSO.CLIENTES
         {
             List<ClienteModel> clientes = _clienteMapeador.Listar();
             return [..clientes.OrderBy(c => c.IdCliente)];
+        }
+
+        public ClienteModel? ClienteExiste(int idCliente)
+        {
+            ClienteModel? cliente = _clienteMapeador.Listar().FirstOrDefault(c => c.IdCliente == idCliente);
+            return cliente;   
         }
     }
 }

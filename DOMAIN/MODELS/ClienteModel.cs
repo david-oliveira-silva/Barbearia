@@ -4,6 +4,7 @@ namespace DOMAIN.MODELS
 {
     public class ClienteModel
     {
+        [Key]
         public int IdCliente { get; set; }
         [Required]
         public string? Nome { get; set; }

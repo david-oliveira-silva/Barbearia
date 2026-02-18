@@ -64,7 +64,8 @@ namespace REPOSITORY.MAPEADORES.Clientes
                 ClienteModel cliente = new()
                 {
                     IdCliente = reader.GetInt("IDCLIENTE"),
-                    Nome = reader.GetString("CPF"),
+                    Nome = reader.GetString("NOME"),
+                    Cpf = reader.GetString("CPF"),
                     Email = reader.GetString("EMAIL"),
                     Telefone = reader.GetString("TELEFONE")
                 };
@@ -72,5 +73,7 @@ namespace REPOSITORY.MAPEADORES.Clientes
             }
             return listaClientes;
         }
+
+    
     }
 }

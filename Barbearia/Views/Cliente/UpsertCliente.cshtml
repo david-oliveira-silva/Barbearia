@@ -1,0 +1,47 @@
+﻿@model DOMAIN.MODELS.ClienteModel
+
+@if (TempData["Erro"] != null)
+{
+    <p class="alert alert-danger">@TempData["Erro"]</p>
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">@(Model.IdCliente != 0 ? "Editar Cliente" : "Novo Cliente")</h3>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Cliente" asp-action=@(Model.IdCliente !=0 ? "EditarCliente" :"CadastrarCliente") method="post">
+
+                <input type="hidden" asp-for="IdCliente" />
+
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label asp-for="Nome" class="form-label fw-bold">Nome Completo</label>
+                        <input asp-for="Nome" class="form-control" placeholder="Digite o nome..." />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Cpf" class="form-label fw-bold">CPF</label>
+                        <input asp-for="Cpf" class="form-control" placeholder="000.000.000-00" />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Telefone" class="form-label fw-bold">Telefone</label>
+                        <input asp-for="Telefone" class="form-control" placeholder="(00) 00000-0000" />
+                    </div>
+
+                    <div class="col-md-12 mb-4">
+                        <label asp-for="Email" class="form-label fw-bold">E-mail</label>
+                        <input asp-for="Email" type="email" class="form-control" placeholder="exemplo@email.com" />
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-success px-4 fw-bold">Salvar</button>
+                    <a asp-controller="Cliente" asp-action="ListarClientes" class="btn btn-outline-secondary px-4">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

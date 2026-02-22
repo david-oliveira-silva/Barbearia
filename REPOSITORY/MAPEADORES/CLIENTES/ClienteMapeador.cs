@@ -41,7 +41,7 @@ namespace REPOSITORY.MAPEADORES.Clientes
             using DbConnection conexao = DBHelper.Instancia.CrieConexao();
             using DbCommand cmd = conexao.CreateCommand();
 
-            cmd.CommandText = "DELETE CLIENTES WHERE IDCLIENTE = @IdCliente";
+            cmd.CommandText = "DELETE FROM CLIENTES WHERE IDCLIENTE = @IdCliente";
             cmd.Parameters.CreateParameter(cmd, @"IdCliente", cliente.IdCliente);
             conexao.Open();
             cmd.ExecuteNonQuery();

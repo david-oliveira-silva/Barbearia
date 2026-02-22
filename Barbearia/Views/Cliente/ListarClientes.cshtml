@@ -1,48 +1,61 @@
 ﻿@using DOMAIN.MODELS
 
 @{
-    ViewData["Title"] = "Listar Clientes";
+	ViewData["Title"] = "Listar Clientes";
 }
 
-<div class="container mt-4">
-    <div class="d-flex mb-4 justify-content-between">
-        <h2 class="text-primary fw-bold">Clientes Cadastrados</h2>
-        <a asp-controller="Cliente" asp-action="UpsertCliente" class="btn btn-primary fw-bold">Cadastrar Cliente</a>
-    </div>
+@if (TempData["Sucesso"] != null)
+{
+	<p class="alert alert-success">@TempData["Sucesso"]</p>
+}
 
-    <div class="row bg-primary text-white text-center py-3 px-3 rounded-top fw-bold shadow-sm mx-0">
-        <div class="col-1 text-center">ID</div>
-        <div class="col-2">Nome</div>
-        <div class="col-2 text-center">CPF</div>
-        <div class="col-3 text-center">E-mail</div>
-        <div class="col-2 text-center">Telefone</div>
-        <div class="col-2 text-center">Opções</div>
-    </div>
+@if (TempData["Erro"] != null)
+{
+	<p class="alert alert-danger">@TempData["Erro"]</p>
+}
 
-    <div class="bg-white shadow-sm rounded-bottom">
-        @foreach (ClienteModel cliente in Model)
-        {
-            <div class="row border-bottom py-3 px-3 align-items-center mx-0">
-                <div class="col-1 text-secondary text-center">
-                    @cliente.IdCliente
-                </div>
-                <div class="col-2 fw-semibold">
-                    @cliente.Nome
-                </div>
-                <div class="col-2 text-center">
-                    @cliente.Cpf
-                </div>
-                <div class="col-3 text-center">
-                    @cliente.Email
-                </div>
-                <div class="col-2 text-center">
-                    @cliente.Telefone
-                </div>
-                <div class="col-2 text-end">
-                    <a class="btn btn-success fw-bold" asp-controller= "Cliente"asp-action="UpsertCliente" asp-route-IdCliente="@cliente.IdCliente">Editar</a>
-                    <a class="btn btn-danger fw-bold" asp-controller="Cliente" asp-action="ExcluirCliente">Excluir</a>
-                </div>
-            </div>
-        }
-    </div>
+<div class="container-fluid px-4 mt-4">
+	<div class="d-flex mb-4 justify-content-between">
+		<h2 class="text-primary fw-bold">Clientes Cadastrados</h2>
+		<a asp-controller="Cliente" asp-action="UpsertCliente" class="btn btn-primary fw-bold fs-5">Cadastrar Cliente</a>
+	</div>
+
+	<div class="row bg-primary text-white text-center py-3 px-3 rounded-top fw-bold shadow-sm mx-0">
+		<div class="col-1 text-center fs-5">ID</div>
+		<div class="col-5 text-start fs-5">Nome</div>
+		<div class="col-1 text-center fs-5">CPF</div>
+		<div class="col-2 text-center fs-5">E-mail</div>
+		<div class="col-2 text-center fs-5">Telefone</div>
+		<div class="col-1 text-center fs-5">Opções</div>
+	</div>
+
+	<div class="bg-white shadow-sm rounded-bottom">
+		@foreach (ClienteModel cliente in Model)
+		{
+			<div class="row border-bottom py-3 px-3 align-items-center mx-0">
+				<div class="col-1 text-secondary text-center fs-5 fw-bold">
+					@cliente.IdCliente
+				</div>
+				<div class="col-5 fw-semibold fs-5">
+					@cliente.Nome
+				</div>
+				<div class="col-1 text-center fs-5">
+					@cliente.Cpf
+				</div>
+				<div class="col-2 text-center fs-5">
+					@cliente.Email
+				</div>
+				<div class="col-2 text-center fs-5">
+					@cliente.Telefone
+				</div>
+				<div class="col-1 text-end d-flex d-inline-flex gap-2 justify-content-center">
+					<a class="btn btn-success fw-bold fs-5" asp-controller="Cliente" asp-action="UpsertCliente" asp-route-IdCliente="@cliente.IdCliente">Editar</a>
+					<form asp-controller="Cliente" asp-action="ExcluirCliente" method="post">
+						<input type="hidden" name="IdCliente" value="@cliente.IdCliente" />
+						<button type="submit" class="btn btn-danger btn-custom fw-bold fs-5" onclick="return confirm('Deseja realmente excluir o cliente @cliente.Nome?')">Excluir</button>
+					</form>
+				</div>
+			</div>
+		}
+	</div>
 </div>

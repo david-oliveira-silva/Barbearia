@@ -55,6 +55,23 @@ namespace WEB.Controllers.CLIENTES
             }
         }
 
+        [HttpPost]
+        public IActionResult ExcluirCliente(ClienteModel cliente)
+        {
+            try
+            {
+                _clienteFachada.Excluir(cliente);
+                TempData["Sucesso"] = "Cliente deletado com sucesso";
+                return RedirectToAction("ListarClientes");
+
+            }catch(Exception ex)
+            {
+                
+                TempData["Erro"] = ex.Message;
+                return RedirectToAction("ListarClientes");
+            }
+        }
+
         [HttpGet]
         public IActionResult ListarClientes()
         {

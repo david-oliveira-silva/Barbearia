@@ -10,9 +10,9 @@ namespace SERVICE.PROCESSO.CLIENTES
 
         public void Cadastrar(ClienteModel cliente)
         {
-            cliente.Nome = cliente.Nome?.Trim();
+            cliente.Nome = cliente.Nome?.ToUpper().Trim();
             cliente.Telefone = cliente.Telefone?.Trim();
-            cliente.Email = cliente.Email?.Trim();
+            cliente.Email = cliente.Email?.ToUpper().Trim();
             _clienteMapeador.Cadastrar(cliente);
         }
 
@@ -20,9 +20,9 @@ namespace SERVICE.PROCESSO.CLIENTES
         {
             if (cliente is not null)
             {
-                cliente.Nome = cliente.Nome?.Trim();
+                cliente.Nome = cliente.Nome?.ToUpper().Trim();
                 cliente.Telefone = cliente.Telefone?.Trim();
-                cliente.Email = cliente.Email?.Trim();
+                cliente.Email = cliente.Email?.ToUpper().Trim();
                 _clienteMapeador.Atualizar(cliente);
             }
             else
@@ -33,7 +33,7 @@ namespace SERVICE.PROCESSO.CLIENTES
 
         public void Excluir(ClienteModel cliente)
         {
-            if (cliente is  null)
+            if (cliente is null)
             {
                 throw new ArgumentNullException("Cliente não encontrado");
             }

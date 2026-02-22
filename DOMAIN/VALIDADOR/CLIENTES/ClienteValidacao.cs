@@ -14,6 +14,9 @@ namespace DOMAIN.VALIDADOR.CLIENTES
 
             RuleFor(cliente => cliente.Email)
                 .EmailAddress().WithMessage("Email invalido");
+
+            RuleFor(cliente => cliente.Telefone)
+                .NotEmpty().WithMessage("O telefone não pode ser vazio");
         }
         public override void AssineRegrasAtualizacao()
         {
@@ -23,6 +26,9 @@ namespace DOMAIN.VALIDADOR.CLIENTES
 
             RuleFor(cliente => cliente.Email)
                 .EmailAddress().WithMessage("Email invalido");
+
+            RuleFor(cliente => cliente.Telefone)
+                .NotEmpty().WithMessage("O telefone não pode ser vazio");
         }
 
         public override void AssineRegrasExclusao()

@@ -15,10 +15,10 @@ namespace REPOSITORY.MAPEADORES.Clientes
             using DbCommand cmd = conexao.CreateCommand();
 
             cmd.CommandText = @"INSERT INTO CLIENTES (NOME, CPF, EMAIL, TELEFONE) VALUES (@NOME, @CPF, @EMAIL, @TELEFONE)";
-            cmd.Parameters.CreateParameter(cmd, @"Nome", cliente.Nome);
-            cmd.Parameters.CreateParameter(cmd, @"Cpf", cliente.Cpf);
-            cmd.Parameters.CreateParameter(cmd, @"Email", cliente.Email);
-            cmd.Parameters.CreateParameter(cmd, @"Telefone", cliente.Telefone);
+            cmd.Parameters.CreateParameter(cmd, @"NOME", cliente.Nome);
+            cmd.Parameters.CreateParameter(cmd, @"CPF", cliente.Cpf);
+            cmd.Parameters.CreateParameter(cmd, @"EMAIL", cliente.Email);
+            cmd.Parameters.CreateParameter(cmd, @"TELEFONE", cliente.Telefone);
             conexao.Open();
             cmd.ExecuteNonQuery();
         }
@@ -27,12 +27,12 @@ namespace REPOSITORY.MAPEADORES.Clientes
             using DbConnection conexao = DBHelper.Instancia.CrieConexao();
             using DbCommand cmd = conexao.CreateCommand();
 
-            cmd.CommandText = @"UPDATE CLIENTES SET NOME = @Nome,CPF = @Cpf,EMAIL = @Email,TELEFONE = @Telefone WHERE IDCLIENTE = @IdCliente";
-            cmd.Parameters.CreateParameter(cmd, @"IdCliente", cliente.IdCliente);
-            cmd.Parameters.CreateParameter(cmd, @"Nome", cliente.Nome);
-            cmd.Parameters.CreateParameter(cmd, @"Cpf", cliente.Cpf);
-            cmd.Parameters.CreateParameter(cmd, @"Email", cliente.Email);
-            cmd.Parameters.CreateParameter(cmd, @"Telefone", cliente.Telefone);
+            cmd.CommandText = @"UPDATE CLIENTES SET NOME = @NOME,CPF = @CPF,EMAIL = @EMAIL,TELEFONE = @TELEFONE WHERE IDCLIENTE = @IDCLIENTE";
+            cmd.Parameters.CreateParameter(cmd, @"IDCLIENTE", cliente.IdCliente);
+            cmd.Parameters.CreateParameter(cmd, @"NOME", cliente.Nome);
+            cmd.Parameters.CreateParameter(cmd, @"CPF", cliente.Cpf);
+            cmd.Parameters.CreateParameter(cmd, @"EMAIL", cliente.Email);
+            cmd.Parameters.CreateParameter(cmd, @"TELEFONE", cliente.Telefone);
             conexao.Open();
             cmd.ExecuteNonQuery();
         }
@@ -42,8 +42,8 @@ namespace REPOSITORY.MAPEADORES.Clientes
             using DbConnection conexao = DBHelper.Instancia.CrieConexao();
             using DbCommand cmd = conexao.CreateCommand();
 
-            cmd.CommandText = "DELETE FROM CLIENTES WHERE IDCLIENTE = @IdCliente";
-            cmd.Parameters.CreateParameter(cmd, @"IdCliente", cliente.IdCliente);
+            cmd.CommandText = "DELETE FROM CLIENTES WHERE IDCLIENTE = @IDCLIENTE";
+            cmd.Parameters.CreateParameter(cmd, @"IDCLIENTE", cliente.IdCliente);
             conexao.Open();
             cmd.ExecuteNonQuery();
         }
@@ -82,8 +82,8 @@ namespace REPOSITORY.MAPEADORES.Clientes
 
             List<ClienteModel> listaClientes = [];
 
-            cmd.CommandText = "SELECT IDCLIENTE,NOME,CPF,EMAIL,TELEFONE FROM CLIENTES WHERE NOME LIKE @Nome";
-            cmd.Parameters.CreateParameter(cmd, @"Nome", "%" + nome + "%");
+            cmd.CommandText = "SELECT IDCLIENTE,NOME,CPF,EMAIL,TELEFONE FROM CLIENTES WHERE NOME LIKE @NOME";
+            cmd.Parameters.CreateParameter(cmd, @"NOME", $"%{nome}%");
             conexao.Open();
             DbDataReader reader = cmd.ExecuteReader();
 

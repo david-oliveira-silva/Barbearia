@@ -7,6 +7,10 @@ namespace DOMAIN.MODELS.BARBEIROS
         [Key]
         public int IdBarbeiro { get; set; }
 
+        public BarbeiroModel()
+        {
+
+        }
         public BarbeiroModel(string? nome, string? cpf, string? email, string? telefone) : base(nome, cpf, email, telefone)
         {
             Nome = nome;

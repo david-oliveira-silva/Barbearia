@@ -2,19 +2,16 @@
 
 namespace DOMAIN.MODELS.CLIENTES
 {
-    public class ClienteModel
+    public class ClienteModel: Pessoa
     {
         [Key]
         public int IdCliente { get; set; }
-        [Required]
-        public string? Nome { get; set; }
-        public string? Cpf { get; set; }
-        public string? Email { get; set; }
-        public string? Telefone { get; set; }
 
-        public ClienteModel() { }
+        public ClienteModel()
+        {
 
-        public ClienteModel(string? nome, string? cpf, string? email, string? telefone)
+        }
+        public ClienteModel(string? nome, string? cpf, string? email, string? telefone):base(nome,cpf,email,telefone)
         {
             Nome = nome;
             Cpf = cpf;

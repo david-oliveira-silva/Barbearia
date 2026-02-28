@@ -1,5 +1,6 @@
 ﻿using System.Data.Common;
-using DOMAIN.MODELS;
+using DOMAIN.INTERFACES;
+using DOMAIN.MODELS.CLIENTES;
 using REPOSITORY.DATA;
 using REPOSITORY.UTILS;
 
@@ -74,6 +75,32 @@ namespace REPOSITORY.MAPEADORES.Clientes
             return listaClientes;
         }
 
-    
+        List<ClienteModel>? IClienteMapeador.BuscarClientePorNome(string nome)
+        {
+            using DbConnection conexao = DBHelper.Instancia.CrieConexao();
+            using DbCommand cmd = conexao.CreateCommand();
+
+            List<ClienteModel> listaClientes = [];
+
+            cmd.CommandText = "SELECT IDCLIENTE,NOME,CPF,EMAIL,TELEFONE FROM CLIENTES WHERE NOME LIKE @Nome";
+            cmd.Parameters.CreateParameter(cmd, @"Nome", "%" + nome + "%");
+            conexao.Open();
+            DbDataReader reader = cmd.ExecuteReader();
+
+            while(reader.Read())
+            {
+                ClienteModel cliente = new()
+                {
+                    IdCliente = reader.GetInt("IDCLIENTE"),
+                    Nome = reader.GetString("NOME"),
+                    Cpf = reader.GetString("CPF"),
+                    Email = reader.GetString("EMAIL"),
+                    Telefone = reader.GetString("TELEFONE")
+                };
+                listaClientes.Add(cliente);
+            }
+            return listaClientes;
+        }
+
     }
 }

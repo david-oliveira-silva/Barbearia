@@ -1,4 +1,4 @@
-﻿@model DOMAIN.MODELS.ClienteModel
+﻿@model DOMAIN.MODELS.CLIENTES.ClienteModel
 
 @if (TempData["Erro"] != null)
 {
@@ -23,12 +23,12 @@
 
                     <div class="col-md-6 mb-3">
                         <label asp-for="Cpf" class="form-label fw-bold">CPF</label>
-                        <input asp-for="Cpf" class="form-control" placeholder="000.000.000-00" />
+                        <input asp-for="Cpf" id="Cpf" maxlength ="14" class="form-control" placeholder="000.000.000-00"/>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label asp-for="Telefone" class="form-label fw-bold">Telefone</label>
-                        <input asp-for="Telefone" class="form-control" placeholder="(00) 00000-0000" />
+                        <input asp-for="Telefone" id ="Telefone" maxlength="15" class="form-control" placeholder="(00) 00000-0000" />
                     </div>
 
                     <div class="col-md-12 mb-4">
@@ -45,3 +45,5 @@
         </div>
     </div>
 </div>
+
+<script src="~/js/Cliente/Mascara.js" asp-append-version="true"></script>

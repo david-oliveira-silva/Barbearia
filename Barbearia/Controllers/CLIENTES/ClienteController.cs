@@ -1,4 +1,4 @@
-﻿using DOMAIN.MODELS;
+﻿using DOMAIN.MODELS.CLIENTES;
 using Microsoft.AspNetCore.Mvc;
 using SERVICE.FACHADA.CLIENTES;
 
@@ -44,7 +44,7 @@ namespace WEB.Controllers.CLIENTES
         {
             try
             {
-                _clienteFachada.Atualizar(cliente);
+                _clienteFachada.Atualizar(cliente, new ArgumentNullException("Cliente não encontrado"));
                 TempData["Sucesso"] = "Cliente editado com sucesso";
                 return RedirectToAction("ListarClientes");
             }
@@ -64,18 +64,27 @@ namespace WEB.Controllers.CLIENTES
                 TempData["Sucesso"] = "Cliente deletado com sucesso";
                 return RedirectToAction("ListarClientes");
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                
+
                 TempData["Erro"] = ex.Message;
                 return RedirectToAction("ListarClientes");
             }
         }
 
         [HttpGet]
-        public IActionResult ListarClientes()
+        public IActionResult ListarClientes(string nome)
         {
-            List<ClienteModel> cliente = _clienteFachada.Listar();
+            List<ClienteModel>? cliente;
+            if (nome is not null)
+            {   
+                cliente = [.._clienteFachada.BuscarClientePorNome(nome) ?? []];     
+            }
+            else
+            {
+                cliente = _clienteFachada.Listar();
+            }
             return View(cliente);
         }
     }

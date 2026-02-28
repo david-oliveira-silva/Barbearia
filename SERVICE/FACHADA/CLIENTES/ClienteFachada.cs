@@ -1,4 +1,4 @@
-﻿using DOMAIN.MODELS;
+﻿using DOMAIN.MODELS.CLIENTES;
 using DOMAIN.VALIDADOR.CLIENTES;
 using REPOSITORY.MAPEADORES.Clientes;
 using SERVICE.PROCESSO.CLIENTES;
@@ -22,7 +22,7 @@ namespace SERVICE.FACHADA.CLIENTES
             _clienteProcesso.Cadastrar(cliente);
         }
 
-        public void Atualizar(ClienteModel cliente)
+        public void Atualizar(ClienteModel cliente, Exception argumentNullException)
         {
             _clienteValidador.AssineRegrasAtualizacao();
             var resultado = _clienteValidador.Validate(cliente);
@@ -33,7 +33,7 @@ namespace SERVICE.FACHADA.CLIENTES
                 throw new ArgumentException(mensagens);
             }
 
-            _clienteProcesso.Atualizar(cliente);
+            _clienteProcesso.Atualizar(cliente, argumentNullException);
         }
 
         public void Excluir(ClienteModel cliente)
@@ -51,6 +51,11 @@ namespace SERVICE.FACHADA.CLIENTES
         public List<ClienteModel> Listar()
         {
             return _clienteProcesso.Listar();
+        }
+
+        public List<ClienteModel>? BuscarClientePorNome(string nome)
+        {
+            return _clienteProcesso.BuscarClientePorNome(nome);
         }
 
         public ClienteModel? ClienteExiste(int idCliente)

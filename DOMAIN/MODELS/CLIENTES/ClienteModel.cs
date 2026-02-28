@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DOMAIN.MODELS
+namespace DOMAIN.MODELS.CLIENTES
 {
     public class ClienteModel
     {

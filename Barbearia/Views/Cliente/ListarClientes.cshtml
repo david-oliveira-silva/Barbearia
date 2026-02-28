@@ -1,5 +1,18 @@
-﻿@using DOMAIN.MODELS
+﻿@using DOMAIN.MODELS.CLIENTES
 
+@model List<ClienteModel>
+
+<style>
+	#Filtrar{
+		height:3.4rem;
+	}
+	#Carregar{
+		width:10rem;
+	}
+	#Cadastrar{
+		height: 3.1rem;
+	}
+</style>
 @{
 	ViewData["Title"] = "Listar Clientes";
 }
@@ -17,9 +30,14 @@
 <div class="container-fluid px-4 mt-4">
 	<div class="d-flex mb-4 justify-content-between">
 		<h2 class="text-primary fw-bold">Clientes Cadastrados</h2>
-		<a asp-controller="Cliente" asp-action="UpsertCliente" class="btn btn-primary fw-bold fs-5">Cadastrar Cliente</a>
+		<a asp-controller="Cliente" asp-action="UpsertCliente" id="Cadastrar" class="btn btn-outline-primary fw-bold fs-5">Cadastrar Cliente</a>
 	</div>
-
+	<form asp-controller="Cliente" asp-action="ListarClientes" method="get">
+		<div class="d-flex gap-2 mb-3 mt-4">
+			<input type="text" name="nome" id="Filtrar" class="form-control fs-5" placeholder="Digite o nome do cliente..." />
+			<button type="submit" class="btn btn-outline-secondary fs-5 fw-bold" id="Carregar">Carregar</button>
+		</div>
+	</form>
 	<div class="row bg-primary text-white text-center py-3 px-3 rounded-top fw-bold shadow-sm mx-0">
 		<div class="col-1 text-center fs-5">ID</div>
 		<div class="col-5 text-start fs-5">Nome</div>
@@ -39,14 +57,14 @@
 				<div class="col-5 fw-semibold fs-5">
 					@cliente.Nome
 				</div>
-				<div class="col-1 text-center fs-5">
-					@cliente.Cpf
+				<div class="col-1 text-center fw-semibold fs-5">
+					@(!string.IsNullOrEmpty(cliente.Cpf) ? long.Parse(cliente.Cpf).ToString(@"000\.000\.000-00") : "")
 				</div>
-				<div class="col-2 text-center fs-5">
+				<div class="col-2 text-center fw-semibold fs-5">
 					@cliente.Email
 				</div>
-				<div class="col-2 text-center fs-5">
-					@cliente.Telefone
+				<div class="col-2 text-center fw-semibold fs-5">
+					@(!string.IsNullOrEmpty(cliente.Telefone) ? long.Parse(cliente.Telefone).ToString(@"(00) 00000-0000") : "")
 				</div>
 				<div class="col-1 text-end d-flex d-inline-flex gap-2 justify-content-center">
 					<a class="btn btn-success fw-bold fs-5" asp-controller="Cliente" asp-action="UpsertCliente" asp-route-IdCliente="@cliente.IdCliente">Editar</a>

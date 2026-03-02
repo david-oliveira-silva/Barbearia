@@ -13,10 +13,7 @@ namespace DOMAIN.MODELS.CLIENTES
         }
         public ClienteModel(string? nome, string? cpf, string? email, string? telefone):base(nome,cpf,email,telefone)
         {
-            Nome = nome;
-            Cpf = cpf;
-            Email = email;
-            Telefone = telefone;
+
         }
     }
 }

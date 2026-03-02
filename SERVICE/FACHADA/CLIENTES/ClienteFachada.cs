@@ -22,7 +22,7 @@ namespace SERVICE.FACHADA.CLIENTES
             _clienteProcesso.Cadastrar(cliente);
         }
 
-        public void Atualizar(ClienteModel cliente, Exception argumentNullException)
+        public void Atualizar(ClienteModel cliente)
         {
             _clienteValidador.AssineRegrasAtualizacao();
             var resultado = _clienteValidador.Validate(cliente);
@@ -33,7 +33,7 @@ namespace SERVICE.FACHADA.CLIENTES
                 throw new ArgumentException(mensagens);
             }
 
-            _clienteProcesso.Atualizar(cliente, argumentNullException);
+            _clienteProcesso.Atualizar(cliente);
         }
 
         public void Excluir(ClienteModel cliente)

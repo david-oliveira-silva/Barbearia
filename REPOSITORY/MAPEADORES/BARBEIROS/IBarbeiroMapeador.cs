@@ -5,6 +5,6 @@ namespace REPOSITORY.MAPEADORES.BARBEIROS
 {
     public interface IBarbeiroMapeador:IMapeador<BarbeiroModel>
     {
-        List<BarbeiroModel> BuscarBarbeiroPorNome(string nome);
+        List<BarbeiroModel>? BuscarBarbeiroPorNome(string nome);
     }
 }

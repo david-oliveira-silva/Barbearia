@@ -18,20 +18,18 @@ namespace SERVICE.PROCESSO.CLIENTES
             _clienteMapeador.Cadastrar(cliente);
         }
 
-        public void Atualizar(ClienteModel cliente, Exception argumentNullException)
+        public void Atualizar(ClienteModel cliente)
         {
-            if (cliente is not null)
+            if (cliente == null)
             {
-                cliente.Nome = cliente.Nome?.ToUpper().Trim();
+                throw new ArgumentNullException(nameof(cliente), "Cliente não pode ser nulo para atualização.");
+            }
+
+            cliente.Nome = cliente.Nome?.ToUpper().Trim();
                 cliente.Telefone = Regex.Replace(cliente.Telefone ?? "", @"\D", "");
                 cliente.Email = cliente.Email?.ToUpper().Trim();
                 cliente.Cpf = cliente.Cpf?.Replace(".", "").Replace("-", "");
                 _clienteMapeador.Atualizar(cliente);
-            }
-            else
-            {
-                throw argumentNullException;
-            }
         }
 
         public void Excluir(ClienteModel cliente)

@@ -16,7 +16,8 @@ namespace WEB.Controllers.CLIENTES
             if (idCliente > 0)
             {
                 cliente = _clienteFachada.ClienteExiste(idCliente);
-                if (cliente != null) return View(cliente);
+                if (cliente != null) 
+                    return View(cliente);
             }
 
             cliente = new();
@@ -44,7 +45,7 @@ namespace WEB.Controllers.CLIENTES
         {
             try
             {
-                _clienteFachada.Atualizar(cliente, new ArgumentNullException("Cliente não encontrado"));
+                _clienteFachada.Atualizar(cliente);
                 TempData["Sucesso"] = "Cliente editado com sucesso";
                 return RedirectToAction("ListarClientes");
             }
@@ -77,13 +78,13 @@ namespace WEB.Controllers.CLIENTES
         public IActionResult ListarClientes(string nome)
         {
             List<ClienteModel>? cliente;
-            if (nome is not null)
-            {   
-                cliente = [.._clienteFachada.BuscarClientePorNome(nome) ?? []];     
+            if (string.IsNullOrEmpty(nome))
+            {
+                cliente = _clienteFachada.Listar();
             }
             else
             {
-                cliente = _clienteFachada.Listar();
+                cliente = [.. _clienteFachada.BuscarClientePorNome(nome) ?? []];
             }
             return View(cliente);
         }

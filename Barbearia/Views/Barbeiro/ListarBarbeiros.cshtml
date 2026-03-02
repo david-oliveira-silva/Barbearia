@@ -1,0 +1,84 @@
+﻿@using DOMAIN.MODELS.BARBEIROS
+@model List<BarbeiroModel>
+
+<style>
+	#Filtrar {
+		height: 3.4rem;
+	}
+
+	#Carregar {
+		width: 10rem;
+	}
+
+	#Cadastrar {
+		height: 3.1rem;
+	}
+</style>
+@{
+	ViewData["Title"] = "Lista barbeiros";
+}
+
+@if (TempData["Sucesso"] != null)
+{
+	<p class="alert alert-success">@TempData["Sucesso"]</p>
+}
+
+@if (TempData["Erro"] != null)
+{
+	<p class="alert alert-danger">@TempData["Erro"]</p>
+}
+
+<div class="Titulo d-flex justify-content-between m-3">
+	<h2 class="text-primary fw-bold">Barbeiros Cadastrados</h2>
+	<a asp-controller="Barbeiro" asp-action="UpsertBarbeiro" class="btn btn-outline-primary fw-bold fs-5">Cadastrar barbeiro</a>
+</div>
+
+<form asp-controller="Barbeiro" asp-action="ListarBarbeiros" method="get">
+	<div class="d-flex m-3 gap-2">
+		<input type="text" name="nome" class="form-control fs-5" placeholder="Digite o nome do barbeiro..." />
+		<button type="submit" class="btn btn-outline-secondary fs-5 fw-bold">Carregar</button>
+	</div>
+</form>
+
+<div class="row bg-primary text-white py-3 px-3 rounded-top fw-bold shadow-sm mx-0">
+	<div class="col-1 text-center fs-5">ID</div>
+	<div class="col-4 text-start fs-5">Nome</div>
+	<div class="col-1 text-center fs-5">CPF</div>
+	<div class="col-2 text-center fs-5">E-mail</div>
+	<div class="col-2 text-center fs-5">Telefone</div>
+	<div class="col-1 text-center fs-5">Salario</div>
+	<div class="col-1 text-center fs-5">Opções</div>
+</div>
+
+<div class="bg-white shadow-sm rounded-bottom">
+	@foreach (BarbeiroModel barbeiro in Model)
+	{
+		<div class="row border-bottom py-3 px-3 align-items-center mx-0">
+			<div class="col-1 text-center text-secondary fw-bold fs-5">
+				@barbeiro.IdBarbeiro
+			</div>
+			<div class="col-4 text-start fw-semibold fs-5">
+				@barbeiro.Nome
+			</div>
+			<div class="col-1 text-center fw-semibold fs-5">
+				@(!string.IsNullOrEmpty(barbeiro.Cpf) ? long.Parse(barbeiro.Cpf).ToString(@"000\.000\.000-00") : "")
+			</div>
+			<div class="col-2 text-center fw-semibold fs-5">
+				@barbeiro.Email
+			</div>
+			<div class="col-2 text-center fw-semibold fs-5">
+				@(!string.IsNullOrEmpty(barbeiro.Telefone) ? long.Parse(@barbeiro.Telefone).ToString(@"(00) 00000-0000") : "")
+			</div>
+			<div class="col-1 text-center fw-semibold fs-5">
+				@barbeiro.Salario.ToString("C2")
+			</div>
+			<div class="col-1 text-center d-flex gap-1">
+				<a class="btn btn-success fw-bold fs-5" asp-controller="Barbeiro" asp-action="UpsertBarbeiro" asp-route-idBarbeiro="@barbeiro.IdBarbeiro">Editar</a>
+				<form asp-controller="Barbeiro" asp-action="ExcluirBarbeiro" method="post">
+					<input type="hidden" name="IdBarbeiro" value="@barbeiro.IdBarbeiro" />
+					<button class="btn btn-danger fs-5 fw-bold" onclick="return confirm('Deseja realmente excluir o cliente @barbeiro.Nome?')">Excluir</button>
+				</form>
+			</div>
+		</div>
+	}
+</div>

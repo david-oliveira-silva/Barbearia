@@ -41,8 +41,8 @@ namespace SERVICE.PROCESSO.BARBEIRO
 
         public List<BarbeiroModel> Listar()
         {
-            List<BarbeiroModel> barbeiro = _barbeiroMapeador.Listar();
-            return [.. barbeiro.OrderBy(b => b.IdBarbeiro)];
+            List<BarbeiroModel> barbeiro = [.._barbeiroMapeador.Listar().OrderBy(b => b.IdBarbeiro)];
+            return barbeiro;
         }
 
         public List<BarbeiroModel>? BuscarClientePorNome(string nome)

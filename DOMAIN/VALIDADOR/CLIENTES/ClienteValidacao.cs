@@ -37,7 +37,7 @@ namespace DOMAIN.VALIDADOR.CLIENTES
         {
             RuleFor(cliente => cliente.IdCliente)
                 .GreaterThan(0)
-                .WithMessage("É necessário informar uma matrícula válida para realizar a exclusão.");
+                .WithMessage("É necessário informar uma código válido para realizar a exclusão.");
         }
     }
 }

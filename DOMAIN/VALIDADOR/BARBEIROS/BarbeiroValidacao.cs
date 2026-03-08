@@ -19,7 +19,7 @@ namespace DOMAIN.VALIDADOR.BARBEIROS
                 .Length(15).WithMessage("Digite um telefone válido (DDD + Número).");
 
             RuleFor(barbeiro => barbeiro.Salario)
-                .GreaterThan(0).WithMessage("Salario não pode ser negativo");
+                .GreaterThanOrEqualTo(0).WithMessage("Salario não pode ser negativo");
         }
 
         public override void AssineRegrasAtualizacao()
@@ -36,14 +36,14 @@ namespace DOMAIN.VALIDADOR.BARBEIROS
                .Length(15).WithMessage("Digite um telefone válido (DDD + Número).");
 
             RuleFor(barbeiro => barbeiro.Salario)
-                .GreaterThan(0).WithMessage("Salario não pode ser negativo");
+                .GreaterThanOrEqualTo(0).WithMessage("Salario não pode ser negativo");
         }
 
         public override void AssineRegrasExclusao()
         {
             RuleFor(barbeiro => barbeiro.IdBarbeiro)
                 .GreaterThan(0)
-                .WithMessage("É necessário informar uma matrícula válida para realizar a exclusão.");
+                .WithMessage("É necessário informar uma código válido para realizar a exclusão.");
         }   
     }
 }

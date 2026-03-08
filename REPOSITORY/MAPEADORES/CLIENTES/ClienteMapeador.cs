@@ -58,7 +58,7 @@ namespace REPOSITORY.MAPEADORES.Clientes
             List<ClienteModel> listaClientes = [];
 
             cmd.CommandText = "SELECT IDCLIENTE,NOME,CPF,EMAIL,TELEFONE FROM CLIENTES";
-            var reader = cmd.ExecuteReader();
+            DbDataReader reader = cmd.ExecuteReader();
 
             while (reader.Read())
             {

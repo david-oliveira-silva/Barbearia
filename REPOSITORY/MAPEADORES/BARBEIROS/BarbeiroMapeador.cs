@@ -57,9 +57,9 @@ namespace REPOSITORY.MAPEADORES.BARBEIROS
 
             List<BarbeiroModel> ListaBarbeiros = [];
 
-            cmd.CommandText = "SELECT IDBARBEIRO,NOME,CPF,EMAIL,TELEFONE,SALARIO FROM BARBEIROS";            
+            cmd.CommandText = "SELECT IDBARBEIRO,NOME,CPF,EMAIL,TELEFONE,SALARIO FROM BARBEIROS";
 
-            var reader = cmd.ExecuteReader();
+            DbDataReader reader = cmd.ExecuteReader();
 
             while (reader.Read())
             {
@@ -90,7 +90,7 @@ namespace REPOSITORY.MAPEADORES.BARBEIROS
             cmd.CommandText = "SELECT IDBARBEIRO,NOME,CPF,EMAIL,TELEFONE,SALARIO FROM BARBEIROS WHERE NOME LIKE @NOME";
             cmd.Parameters.CreateParameter(cmd, @"NOME",$"%{nome}%");
 
-            var reader = cmd.ExecuteReader();
+            DbDataReader reader = cmd.ExecuteReader();
 
             while (reader.Read())
             {

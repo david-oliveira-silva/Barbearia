@@ -10,14 +10,14 @@ namespace SERVICE.FACHADA.SERVICOS
         protected ServicoValidacao _servicoValidador = new();
         protected ServicoProcesso _servicoProcesso = new(mapeador);
 
-        public void Cadastro(ServicoModel servico)
+        public void Cadastrar(ServicoModel servico)
         {
             _servicoValidador.AssineRegrasInclusao();
             var resultado = _servicoValidador.Validate(servico);
 
-            if (resultado.IsValid)
+            if (!resultado.IsValid)
             {
-                string mensagens = string.Join("", resultado.Errors.Select(e => e.ErrorMessage));
+                string mensagens = string.Join(";", resultado.Errors.Select(e => e.ErrorMessage));
                 throw new ArgumentException(mensagens);
             }
 
@@ -30,7 +30,7 @@ namespace SERVICE.FACHADA.SERVICOS
 
             var resultado = _servicoValidador.Validate(servico);
 
-            if (resultado.IsValid)
+            if (!resultado.IsValid)
             {
                 string mensagens = string.Join("", resultado.Errors.Select(e => e.ErrorMessage));
                 throw new ArgumentException(mensagens);
@@ -45,7 +45,7 @@ namespace SERVICE.FACHADA.SERVICOS
 
             var resultado = _servicoValidador.Validate(servico);
 
-            if (resultado.IsValid)
+            if (!resultado.IsValid)
             {
                 string mensagens = string.Join("", resultado.Errors.Select(e => e.ErrorMessage));
                 throw new ArgumentException(mensagens);

@@ -1,10 +1,13 @@
 using REPOSITORY.DATA;
 using REPOSITORY.MAPEADORES.BARBEIROS;
 using REPOSITORY.MAPEADORES.Clientes;
+using REPOSITORY.MAPEADORES.SERVICOS;
 using SERVICE.FACHADA.BARBEIROS;
 using SERVICE.FACHADA.CLIENTES;
+using SERVICE.FACHADA.SERVICOS;
 using SERVICE.PROCESSO.BARBEIRO;
 using SERVICE.PROCESSO.CLIENTES;
+using SERVICE.PROCESSO.SERVICOS;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +29,10 @@ builder.Services.AddScoped<ClienteFachada>();
 builder.Services.AddScoped<IBarbeiroMapeador, BarbeiroMapeador>();
 builder.Services.AddScoped<BarbeiroProcesso>();
 builder.Services.AddScoped<BarbeiroFachada>();
+
+builder.Services.AddScoped<IServicoMapeador, ServicoMapeador>();
+builder.Services.AddScoped<ServicoProcesso>();
+builder.Services.AddScoped<ServicosFachada>();
 
 var app = builder.Build();
 

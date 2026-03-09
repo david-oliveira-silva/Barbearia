@@ -55,6 +55,7 @@ namespace REPOSITORY.MAPEADORES.SERVICOS
 
             List<ServicoModel> listaServicos = [];
 
+            cmd.CommandText = "SELECT IDSERVICO,NOME,VALOR,TEMPOMEDIO FROM SERVICOS";
             DbDataReader reader = cmd.ExecuteReader();
 
             while (reader.Read())
@@ -80,10 +81,9 @@ namespace REPOSITORY.MAPEADORES.SERVICOS
 
             List<ServicoModel> listaServicos = [];
 
-            DbDataReader reader = cmd.ExecuteReader();
-
-            cmd.CommandText = "SELECT IDSERVICO,NOME,VALOR,TEMPOMEDIO FROM SERVICOS WHERE NOME = @NOME";
+            cmd.CommandText = "SELECT IDSERVICO,NOME,VALOR,TEMPOMEDIO FROM SERVICOS WHERE NOME LIKE @NOME";
             cmd.Parameters.CreateParameter(cmd, @"NOME", $"%{nome}%");
+            DbDataReader reader = cmd.ExecuteReader();
 
             while (reader.Read())
             {

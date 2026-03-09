@@ -29,18 +29,18 @@
 }
 
 <div class="Titulo d-flex justify-content-between m-3">
-	<h2 class="text-primary fw-bold">Barbeiros Cadastrados</h2>
-	<a asp-controller="Barbeiro" asp-action="UpsertBarbeiro" class="btn btn-outline-primary fw-bold fs-5">Cadastrar barbeiro</a>
+	<h2 class="text-dark fw-bold">Barbeiros Cadastrados</h2>
+	<a asp-controller="Barbeiro" asp-action="UpsertBarbeiro" class="btn btn-outline-dark fw-bold fs-5">Cadastrar barbeiro</a>
 </div>
 
 <form asp-controller="Barbeiro" asp-action="ListarBarbeiros" method="get">
 	<div class="d-flex m-3 gap-2">
 		<input type="text" name="nome" class="form-control fs-5" placeholder="Digite o nome do barbeiro..." />
-		<button type="submit" class="btn btn-outline-secondary fs-5 fw-bold">Carregar</button>
+		<button type="submit" class="btn btn-secondary fs-5 fw-bold">Carregar</button>
 	</div>
 </form>
 
-<div class="row bg-primary text-white py-3 px-3 rounded-top fw-bold shadow-sm mx-0">
+<div class="row bg-dark text-white py-3 px-3 rounded-top fw-bold shadow-sm mx-0">
 	<div class="col-1 text-center fs-5">ID</div>
 	<div class="col-4 text-start fs-5">Nome</div>
 	<div class="col-1 text-center fs-5">CPF</div>

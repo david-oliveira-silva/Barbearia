@@ -1,0 +1,64 @@
+﻿@using DOMAIN.MODELS.SERVICOS
+@model List<ServicoModel>
+
+@{
+	ViewData["Title"] = "Listar Servicos";
+}
+
+@if (TempData["Sucesso"] != null)
+{
+	<p class="alert alert-success">@TempData["Sucesso"]</p>
+}
+
+@if (TempData["Erro"] != null)
+{
+	<p class="alert alert-danger">@TempData["Erro"]</p>
+}
+
+<div class="container mt-5" style="max-width: 70%;">
+
+	<div class="d-flex mb-4 justify-content-between">
+		<h2 class="text-dark fw-bold">Serviços Cadastrados</h2>
+		<a asp-controller="Servico" asp-action="UpsertServico" id="Cadastrar" class="btn btn-outline-dark fw-bold fs-5">Cadastrar Servico</a>
+	</div>
+	<form asp-controller="Servico" asp-action="ListarServicos" method="get">
+		<div class="d-flex gap-2 mb-3 mt-4">
+			<input type="text" name="nome" id="Filtrar" class="form-control fs-5" placeholder="Digite o nome do servico..." />
+			<button type="submit" class="btn btn-outline-secondary fs-5 fw-bold" id="Carregar">Carregar</button>
+		</div>
+	</form>
+	<div class="row bg-dark text-white text-center py-3 px-3 rounded-top fw-bold shadow-sm mx-0">
+		<div class="col-1 text-center fs-5">ID</div>
+		<div class="col-4 text-center fs-5">Nome</div>
+		<div class="col-4 text-center fs-5">Valor</div>
+		<div class="col-1 text-center fs-5">Tempo Medio</div>
+		<div class="col-2 text-center fs-5">Opções</div>
+	</div>
+
+	<div class="bg-white shadow-sm rounded-bottom">
+		@foreach (ServicoModel servico in Model)
+		{
+			<div class="row border-bottom py-3 px-3 align-items-center mx-0">
+				<div class="col-1 text-secondary text-center fs-5 fw-bold">
+					@servico.IdServico
+				</div>
+				<div class="col-4 text-center fw-semibold fs-5">
+					@servico.Nome
+				</div>
+				<div class="col-4 text-center fw-semibold fs-5">
+					@servico.Valor.ToString("C2")
+				</div>
+				<div class="col-1 text-center fw-semibold fs-5">
+					@servico.TempoMedio.ToString("0 min")
+				</div>
+				<div class="col-2 text-end d-flex d-inline-flex gap-2 justify-content-center">
+					<a class="btn btn-success fw-bold fs-5" asp-controller="Servico" asp-action="UpsertServico" asp-route-IdServico="@servico.IdServico">Editar</a>
+					<form asp-controller="Servico" asp-action="ExcluirServico" method="post">
+						<input type="hidden" name="IdServico" value="@servico.IdServico" />
+						<button type="submit" class="btn btn-danger btn-custom fw-bold fs-5" onclick="return confirm('Deseja realmente excluir o servico @servico.Nome?')">Excluir</button>
+					</form>
+				</div>
+			</div>
+		}
+	</div>
+</div>

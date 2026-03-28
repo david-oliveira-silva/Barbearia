@@ -1,5 +1,10 @@
 ﻿@model DOMAIN.MODELS.CLIENTES.ClienteModel
 
+@{
+    bool ehEdicao = Model.IdCliente != 0;
+    ViewData["Title"] = (ehEdicao ? "Atualizar cliente" : "Cadastrar cliente");
+}
+
 @if (TempData["Erro"] != null)
 {
     <p class="alert alert-danger">@TempData["Erro"]</p>
@@ -7,11 +12,11 @@
 
 <div class="container mt-5">
     <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">@(Model.IdCliente != 0 ? "Editar Cliente" : "Novo Cliente")</h3>
+        <div class="card-header bg-dark text-white">
+            <h3 class="mb-0">@(ehEdicao ? "Editar Cliente" : "Novo Cliente")</h3>
         </div>
         <div class="card-body">
-            <form asp-controller="Cliente" asp-action=@(Model.IdCliente !=0 ? "EditarCliente" :"CadastrarCliente") method="post">
+            <form asp-controller="Cliente" asp-action=@(ehEdicao ? "EditarCliente" :"CadastrarCliente") method="post">
 
                 <input type="hidden" asp-for="IdCliente" />
 

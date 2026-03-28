@@ -1,6 +1,11 @@
 ﻿@using DOMAIN.MODELS.SERVICOS
 @model ServicoModel
 
+@{
+    bool ehEdicao = Model.IdServico != 0;
+    ViewData["Title"] = (ehEdicao ? "Atualizar serviço" : "Cadastrar serviço");
+}
+
 @if (TempData["Erro"] != null)
 {
     <p class="alert alert-danger">@TempData["Erro"]</p>
@@ -8,11 +13,11 @@
 
 <div class="container mt-5" style="max-width:60%";>
     <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">@(Model.IdServico != 0 ? "Editar Servico" : "Novo Servico")</h3>
+        <div class="card-header bg-dark text-white">
+            <h3 class="mb-0">@(ehEdicao ? "Editar Servico" : "Novo Servico")</h3>
         </div>
         <div class="card-body">
-            <form asp-controller="Servico" asp-action=@(Model.IdServico !=0 ? "AtualizarServico" :"CadastrarServico") method="post">
+            <form asp-controller="Servico" asp-action=@(ehEdicao ? "AtualizarServico" :"CadastrarServico") method="post">
 
                 <input type="hidden" asp-for="IdServico" />
 

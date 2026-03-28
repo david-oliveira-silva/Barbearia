@@ -1,0 +1,81 @@
+﻿@using DOMAIN.Models.Horarios
+@using DOMAIN.Models.ViewModelHorario
+@model List<HorarioModel>
+@{
+	ViewData["Title"] = "Listar Horários";
+}
+
+@if (TempData["Sucesso"] != null)
+{
+	<p class="alert alert-success">@TempData["Sucesso"]</p>
+}
+
+@if (TempData["Erro"] != null)
+{
+	<p class="alert alert-danger">@TempData["Erro"]</p>
+}
+
+<style>
+	#Carregar {
+		width: 10rem;
+	}
+
+	#Cadastrar {
+		height: 3.1rem;
+	}
+</style>
+
+<div class="container mt-5" style="max-width: 90%;">
+
+	<div class="Titulo d-flex justify-content-between mb-4">
+		<h2 class="fw-bold">Lista de horários</h2>
+		<a class="btn btn-outline-dark fw-bold fs-5" id="Cadastrar" asp-controller="Horario" asp-action="UpsertHorario">Cadastrar Horário</a>
+	</div>
+
+	<div class="row bg-dark text-white fw-bold py-3 px-3 rounded-top shadow-sm mx-0">
+		<div class="col-1 text-center fs-5">ID</div>
+		<div class="col-4 text-start fs-5">Barbeiro</div>
+		<div class="col-2 text-center fs-5">Dia</div>
+		<div class="col-1 text-center fs-5">Horario Inicio</div>
+		<div class="col-1 text-center fs-5">Horario Fim</div>
+		<div class="col-1 text-center fs-5">Disponibilidade</div>
+		<div class="col-2 text-center fs-5">Opções</div>
+	</div>
+	<div class="bg-white shadow-sm rounded-bottom">
+		@foreach (HorarioModel horario in Model)
+		{
+			<div class="row px-3 py-3 border-bottom">
+
+				<div class="col-1 fs-5 fw-bold text-secondary text-center">
+					@horario?.Barbeiros?.IdBarbeiro
+				</div>
+				<div class="col-4 fs-5 fw-semibold text-start">
+					@horario?.Barbeiros?.Nome
+				</div>
+				<div class="col-2 fs-5 fw-semibold text-center">
+					@horario?.DiaSemana
+				</div>
+				<div class="col-1 fs-5 fw-semibold text-center">
+					@horario?.HorarioInicio
+				</div>
+				<div class="col-1 fs-5 fw-semibold text-center">
+					@horario?.HorarioFim
+				</div>
+				<div class="col-1 fs-5 fw-semibold text-center">
+					@horario?.Ativo
+				</div>
+				<div class="col-2 fs-5 text-secondary text-center d-flex justify-content-center gap-2">
+					<a class="btn btn-success fw-bold fs-5" asp-controller="Horario" asp-action="UpsertHorario" asp-route-IdHorario="@horario?.IdHorario">Editar</a>
+
+					<form asp-controller="Horario" asp-action="ExcluirHorario" method="post">
+						<input type="hidden" name="IdHorario" value="@horario?.IdHorario">
+						<button type="submit" class="btn btn-danger fw-bold fs-5" onclick="return confirm('Deseja realmente excluir o horário do barbeiro @horario?.Barbeiros?.Nome')">Excluir</button>
+					</form>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+
+
+

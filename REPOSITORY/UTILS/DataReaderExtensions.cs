@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using DOMAIN.Enuns.Horario;
 
 namespace REPOSITORY.UTILS
 {
@@ -24,6 +25,24 @@ namespace REPOSITORY.UTILS
         {
             int ordinal = reader.GetOrdinal(nomeColuna);
             return reader.IsDBNull(ordinal) ? 0.0 : reader.GetDouble(ordinal);
+        }
+
+        public static bool GetBool(this DbDataReader reader, string nomeColuna)
+        {
+            int ordinal = reader.GetOrdinal(nomeColuna);
+            return reader.IsDBNull(ordinal) || reader.GetBoolean(ordinal);
+        }
+
+        public static DiaSemana GetDiaSemana(this DbDataReader reader, string nomeColuna)
+        {
+            int ordinal = reader.GetOrdinal(nomeColuna);
+            return reader.IsDBNull(ordinal) ? DiaSemana.SEGUNDA : (DiaSemana)reader.GetInt32(ordinal);
+        }
+
+        public static TimeSpan GetTimeSpan(this DbDataReader reader, string nomeColuna)
+        {
+            int ordinal = reader.GetOrdinal(nomeColuna);
+            return reader.IsDBNull(ordinal) ? TimeSpan.Zero : reader.GetFieldValue<TimeSpan>(ordinal);
         }
     }
 }

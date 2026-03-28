@@ -1,0 +1,81 @@
+@using DOMAIN.Enuns.Horario
+@using DOMAIN.Models.ViewModelHorario
+@using System.Globalization
+@model ViewModelHorario
+
+@{
+	bool ehEdicao = Model?.Horario?.IdHorario > 0;
+}
+
+@if (TempData["Erro"] != null)
+{
+	<p class="alert alert-danger">@TempData["Erro"]</p>
+}
+
+<div class="container mt-5">
+	<div class="card shadow-sm">
+		<div class="card-header bg-dark text-white">
+			<h3>@(ehEdicao ? "Editar Horário" : "Cadastrar Horário")</h3>
+		</div>
+		<div class="card-body">
+			<form asp-controller="Horario" asp-action="@(ehEdicao ? "AtualizarHorario" : "CadastrarHorario")" method="post">
+				<input type="hidden" asp-for="Horario.IdHorario" />
+				@if (ehEdicao)
+				{
+					<input type="hidden" asp-for="Horario.IdBarbeiro" />
+				}
+				<div class="row">
+					<div class="col-md-12">
+						<label asp-for="Horario.IdBarbeiro" class="fw-bold">Barbeiros</label>
+						<select asp-for="Horario.IdBarbeiro" class="form-select" disabled="@(ehEdicao ? "disabled" : null)">
+							<option value="" disabled selected>Selecione</option>
+
+							@foreach (var barbeiro in Model?.Barbeiros ?? [])
+							{
+								<option value="@barbeiro.IdBarbeiro"> @barbeiro.Nome</option>
+							}
+						</select>
+					</div>
+
+					<div class="col-md-12">
+						<label asp-for="Horario.DiaSemana" class="form-label fw-bold">Dia da Semana</label>
+						<select asp-for="Horario.DiaSemana" class="form-select">
+							<option value="" disabled selected>Selecione</option>
+
+							@foreach (DiaSemana dia in Enum.GetValues(typeof(DiaSemana)))
+							{				
+								<option value="@dia"> @dia</option>
+							}
+						</select>
+					</div>
+
+					<div class="col-md-6">
+						<label asp-for="Horario.HorarioInicio" class="form-label fw-bold">Início</label>
+						<input asp-for="Horario.HorarioInicio" type="time" class="form-control" />
+					</div>
+
+					<div class="col-md-6">
+						<label asp-for="Horario.HorarioFim" class="form-label fw-bold">Término</label>
+						<input asp-for="Horario.HorarioFim" type="time" class="form-control" />
+					</div>
+
+					<div class="col-md-12">
+						<label asp-for="Horario.Ativo" class="form-label d-block fw-bold">Ativo</label>
+
+						<div class="btn-group" role="group">
+							<input type="radio" asp-for="Horario.Ativo" value="@Ativo.ATIVO" class="btn-check" id="ativoSim" autocomplete="off">
+							<label class="btn btn-outline-dark" for="ativoSim">Sim</label>
+
+							<input type="radio" asp-for="Horario.Ativo" value="@Ativo.INATIVO" class="btn-check" id="ativoNao" autocomplete="off">
+							<label class="btn btn-outline-dark" for="ativoNao">Não</label>
+						</div>
+					</div>
+					<div class="col-md-12 mt-4 d-flex gap-2">
+						<button type="submit" class="btn btn-success px-4 shadow-sm">Salvar</button>
+						<a class="btn btn-outline-secondary px-4" asp-controller="Horario" asp-action="ListarHorarios">Voltar</a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

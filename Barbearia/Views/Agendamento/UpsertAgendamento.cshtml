@@ -1,63 +1,144 @@
-﻿@using DOMAIN.Models.ViewModel
+@using DOMAIN.Models.ViewModel
 @model ViewModelAgendamento
 @{
-	ViewData["Title"] = "Cadastrar Agendamento";
+    bool ehEdicao = Model.Agendamento.IdAgendamento != 0;
+    ViewData["Title"] = (ehEdicao ? "Atualizar Agendamento" : "Cadastrar Agendamento");
 }
 
-<div class="Titulo d-flex justify-content-between m-3">
-	<h2 class="text-dark fw-bold">Cadastrar Agendamento</h2>
-	<a asp-controller="Agendamento" asp-action="ListarAgendamentos" class="btn btn-outline-dark fw-bold fs-5">Voltar</a>
+@if (TempData["Erro"] != null)
+{
+    <div class="alert alert-danger mx-3 mt-3 shadow-sm border-0">
+        <i class="fa-solid fa-circle-exclamation me-2"></i> @TempData["Erro"]
+    </div>
+}
+
+<div class="container mt-5 mb-5">
+    <div class="card shadow border-0 rounded-3">
+        <div class="card-header bg-dark text-white p-3">
+            <h4 class="mb-0 d-flex align-items-center">
+                <i class="fa-solid fa-calendar-check me-3"></i>
+                <span>@(ehEdicao ? "Editar Informações da Reserva" : "Agendar Novo Horário")</span>
+            </h4>
+        </div>
+        <div class="card-body p-4">
+            <form asp-controller="Agendamento" asp-action="@(ehEdicao ? "AtualizarAgendamento" : "CadastrarAgendamento")" method="post">
+                <input type="hidden" asp-for="Agendamento.IdAgendamento" />
+
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <label asp-for="Agendamento.IdCliente" class="form-label fw-bold">
+                            <i class="fa-solid fa-user me-2 text-muted"></i> Cliente
+                        </label>
+                        <select asp-for="Agendamento.IdCliente" class="form-select shadow-sm border-2">
+                            <option value="">Selecione um cliente</option>
+                            @foreach (var cliente in Model.Clientes)
+                            {
+                                <option value="@cliente.IdCliente">@cliente.Nome</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Agendamento.IdCliente" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label asp-for="Agendamento.IdBarbeiro" class="form-label fw-bold">
+                            <i class="fa-solid fa-user-tie me-2 text-muted"></i> Barbeiro
+                        </label>
+                        <select asp-for="Agendamento.IdBarbeiro" id="selectBarbeiro" class="form-select shadow-sm border-2">
+                            <option value="">Selecione um barbeiro</option>
+                            @foreach (var barbeiro in Model.Barbeiros)
+                            {
+                                <option value="@barbeiro.IdBarbeiro">@barbeiro.Nome</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Agendamento.IdBarbeiro" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label asp-for="Agendamento.DataAgendamento" class="form-label fw-bold">
+                            <i class="fa-solid fa-calendar-day me-2 text-muted"></i> Data da Reserva
+                        </label>
+                        <input type="date" asp-for="Agendamento.DataAgendamento" id="inputData" class="form-control shadow-sm border-2" />
+                        <span asp-validation-for="Agendamento.DataAgendamento" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label asp-for="Agendamento.IdServico" class="form-label fw-bold">
+                            <i class="fa-solid fa-scissors me-2 text-muted"></i> Serviço
+                        </label>
+                        <select asp-for="Agendamento.IdServico" class="form-select shadow-sm border-2">
+                            <option value="">Selecione um serviço</option>
+                            @foreach (var servico in Model.Servicos)
+                            {
+                                <option value="@servico.IdServico">@servico.Nome</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Agendamento.IdServico" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label asp-for="Agendamento.IdHorario" class="form-label fw-bold">
+                            <i class="fa-solid fa-clock me-2 text-muted"></i> Horário Disponível
+                        </label>
+                        <select asp-for="Agendamento.IdHorario" id="selectHorario" class="form-select shadow-sm border-2">
+                            <option value="">Selecione barbeiro e data primeiro</option>
+                        </select>
+                        <span asp-validation-for="Agendamento.IdHorario" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-top mt-2 d-flex gap-3">
+                    <button type="submit" class="btn btn-dark px-5 fw-bold shadow-sm transition-hover">
+                        <i class="fa-solid fa-floppy-disk me-2"></i> Salvar
+                    </button>
+                    <a class="btn btn-outline-dark px-4 border-2" asp-controller="Agendamento" asp-action="ListarAgendamentos">
+                        <i class="fa-solid fa-circle-arrow-left me-2"></i> Voltar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
-<div class="bg-white shadow-sm rounded p-3">
-	<form asp-action="UpsertAgendamento" method="post">
-		<input type="hidden" asp-for="Agendamento.IdAgendamento" />
-		<div class="mb-3">
-			<label asp-for="Agendamento.IdCliente" class="form-label">Cliente</label>
-			<select asp-for="Agendamento.IdCliente" class="form-select">
-				<option value="">Selecione um cliente</option>
-				@foreach (var cliente in Model.Clientes)
-				{
-					<option value="@cliente.IdCliente">@cliente.Nome</option>
-				}
-			</select>
-			<span asp-validation-for="Agendamento.IdCliente" class="text-danger"></span>
-		</div>
-		<div class="mb-3">
-			<label asp-for="Agendamento.IdBarbeiro" class="form-label">Barbeiro</label>
-			<select asp-for="Agendamento.IdBarbeiro" class="form-select">
-				<option value="">Selecione um barbeiro</option>
-				@foreach (var barbeiro in Model.Barbeiros)
-				{
-					<option value="@barbeiro.IdBarbeiro">@barbeiro.Nome</option>
-				}
-			</select>
-			<span asp-validation-for="Agendamento.IdBarbeiro" class="text-danger"></span>
-		</div>
-		<div class="mb-3">
-			<label asp-for="Agendamento.IdServico" class="form-label">Serviço</label>
-			<select asp-for="Agendamento.IdServico" class="form-select">
-				<option value="">Selecione um serviço</option>
-				@foreach (var servico in Model.Servicos)
-				{
-					<option value="@servico.IdServico">@servico.Nome</option>
-				}
-			</select>
-			<span asp-validation-for="Agendamento.IdServico" class="text-danger"></span>
-		</div>
-		<div class="mb-3">
-			<label asp-for="Agendamento.IdHorario" class="form-label">Horário</label>
-			<select asp-for="Agendamento.IdHorario" class="form-select">
-				<option value="">Selecione um horário</option>
-				@foreach (var horario in Model.Horarios)
-				{
-					<option value="@horario.IdHorario">@horario</option>
-				}
-			</select>
-			<span asp-validation-for="Agendamento.IdHorario" class="text-danger"></span>
-		</div>
-		<div class="mb-3">
-			<button type="submit" class="btn btn-primary">Salvar</button>
-		</div>
-	</form>
-</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            function atualizarHorarios() {
+                var barbeiroId = $('#selectBarbeiro').val();
+                var dataEscolhida = $('#inputData').val();
+                var $selectHorario = $('#selectHorario');
+
+                if (barbeiroId && dataEscolhida) {
+                    $selectHorario.empty().append('<option>Carregando...</option>');
+                    
+                    $.getJSON('@Url.Action("HorariosDisponiveis", "Agendamento")', { idBarbeiro: barbeiroId, data: dataEscolhida }, function (dados) {
+                        $selectHorario.empty().append('<option value="">Selecione o horário</option>');
+                        
+                        if (dados.length === 0) {
+                            $selectHorario.append('<option value="">Nenhum horário disponível</option>');
+                        } else {
+                            $.each(dados, function (i, item) {
+                                $selectHorario.append($('<option>', { 
+                                    value: item.id, 
+                                    text: item.texto 
+                                }));
+                            });
+                        }
+
+                        var idSalvo = '@(Model.Agendamento?.IdHorario)';
+                        if (idSalvo && idSalvo != '0') {
+                             $selectHorario.val(idSalvo);
+                        }
+                    });
+                } else {
+                    $selectHorario.empty().append('<option value="">Selecione barbeiro e data primeiro</option>');
+                }
+            }
+
+            $('#selectBarbeiro, #inputData').change(atualizarHorarios);
+
+            if ($('#selectBarbeiro').val() && $('#inputData').val()) {
+                atualizarHorarios();
+            }
+        });
+    </script>
+}

@@ -1,4 +1,3 @@
-﻿using DOMAIN.Enuns.Horario;
 using DOMAIN.Models.Agendamentos;
 using REPOSITORY.Mapeadores.Agendamentos;
 
@@ -31,10 +30,9 @@ namespace SERVICE.Processo.Agendamentos
             return agendamento;
         }
 
-        public List<AgendamentoModel> HorariosOculpados(int idBarbeiro, DateOnly dia)
+        public List<AgendamentoModel> ListarHorariosOcupadosPorData(int idBarbeiro, DateOnly data)
         {
-            List<AgendamentoModel> horarios = [.._agendamentoMapeador.Listar().Where(a => a.Horarios?.Barbeiros?.IdBarbeiro == idBarbeiro && a.DataAgendamento == dia)];
-            return horarios;
+            return [.._agendamentoMapeador.Listar().Where(a => a.IdBarbeiro == idBarbeiro && a.DataAgendamento == data)];         
         }
 
     }

@@ -1,4 +1,4 @@
-﻿using DOMAIN.Enuns.Horario;
+using DOMAIN.Enuns.Horario;
 using DOMAIN.INTERFACES;
 using DOMAIN.Models.Agendamentos;
 using DOMAIN.Validador.Agendamentos;
@@ -55,14 +55,14 @@ namespace SERVICE.Fachada.Agendamentos
             return _agendamentoProcesso.Listar();
         }
 
+        public List<AgendamentoModel> ListarHorariosOcupadosPorData(int idBarbeiro, DateOnly data)
+        {
+            return _agendamentoProcesso.ListarHorariosOcupadosPorData(idBarbeiro, data);
+        }
+
         public AgendamentoModel? AgendamentoExiste(int idAgendamento)
         {
             return _agendamentoProcesso.AgendamentoExiste(idAgendamento);
-        }
-
-        public List<AgendamentoModel> HorariosOculpados(int idBarbeiro, DiaSemana diaSemana)
-        {
-            return _agendamentoProcesso.HorariosOculpados(idBarbeiro, diaSemana);
         }
     }
 }

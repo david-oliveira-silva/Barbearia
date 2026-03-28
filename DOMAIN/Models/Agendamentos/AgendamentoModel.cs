@@ -22,6 +22,7 @@ namespace DOMAIN.Models.Agendamentos
         public AgendamentoModel()
         {
             AgendamentoRealizado = false;
+            DataAgendamento = DateOnly.FromDateTime(DateTime.Today);
         }
 
         public AgendamentoModel(int IdBarbeiro, int IdCliente, int IdServico, int IdHorario, DateOnly DataAgendamento)

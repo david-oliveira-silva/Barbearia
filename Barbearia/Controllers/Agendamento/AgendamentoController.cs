@@ -1,4 +1,4 @@
-﻿using DOMAIN.Enuns.Horario;
+using DOMAIN.Enuns.Horario;
 using DOMAIN.Models.Agendamentos;
 using DOMAIN.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -105,12 +105,24 @@ namespace WEB.Controllers.Agendamento
             List<AgendamentoModel> agendamento = _agendamentoFachada.Listar();
             return View(agendamento);
         }
-        public IActionResult ListarHorariosDisponiveis(int idBarbeiro,DiaSemana diaSemana)
-        {
-            var horariosOculpados = _agendamentoFachada.HorariosOculpados(idBarbeiro, diaSemana);
-            var horariosDisponiveis = _horarioFachada.HorariosDisponiveis(idBarbeiro, diaSemana);
 
-            return View(horariosDisponiveis);
+        [HttpGet]
+        public JsonResult HorariosDisponiveis(int idBarbeiro, DateOnly data)
+        {   
+            int dia = (int)data.DayOfWeek;
+            var diaSemanaEnum = (DiaSemana)(dia == 0 ? 7 : dia);
+            var cadastrados = _horarioFachada.HorariosDisponiveis(idBarbeiro, diaSemanaEnum);
+            var ocupados = _agendamentoFachada.ListarHorariosOcupadosPorData(idBarbeiro, data);
+            var idsOcupados = ocupados.Select(a => a.IdHorario).ToList();
+
+            var disponiveis = cadastrados
+                .Where(h => !idsOcupados.Contains(h.IdHorario))
+                .Select(h => new { 
+                    id = h.IdHorario, 
+                    texto = $"{h.HorarioInicio:hh\\:mm} às {h.HorarioFim:hh\\:mm}" 
+                });
+
+            return Json(disponiveis);
         }
     }
 }

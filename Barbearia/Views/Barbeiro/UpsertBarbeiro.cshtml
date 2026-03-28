@@ -1,52 +1,81 @@
-﻿@using DOMAIN.MODELS.BARBEIROS
+@using DOMAIN.MODELS.BARBEIROS
 @model BarbeiroModel;
 @{
 	bool ehEdicao = Model.IdBarbeiro != 0;
-	ViewData["Title"] = (ehEdicao ? "Atualizar Barbeiro" : "Cadastrar barbeiro");
+	ViewData["Title"] = (ehEdicao ? "Atualizar Barbeiro" : "Cadastrar Barbeiro");
 }
 
 @if (TempData["Erro"] != null)
 {
-    <p class="alert alert-danger">@TempData["Erro"]</p>
+    <div class="alert alert-danger mx-3 mt-3 shadow-sm border-0">
+        <i class="fa-solid fa-triangle-exclamation me-2"></i> @TempData["Erro"]
+    </div>
 }
 
-<div class="container mt-5">
-	<div class="card shadow-sm">
-		<div class="card-header bg-dark text-white">
-			<h3 class="text-white">@(ehEdicao ? "Editar Barbeiro" : "Novo Barbeiro")</h3>
+<div class="container mt-5 mb-5">
+	<div class="card shadow border-0 rounded-3">
+		<div class="card-header bg-dark text-white p-3">
+			<h4 class="mb-0 d-flex align-items-center">
+                <i class="fa-solid fa-scissors me-3"></i>
+                <span>@(ehEdicao ? "Editar Informações do Barbeiro" : "Contratar Novo Barbeiro")</span>
+            </h4>
 		</div>
-		<div class="card-body">
-			<form asp-controller="Barbeiro" asp-action="@(ehEdicao ? "AtualizarBarbeiro" : "CadastrarBarbeiro")">
-
+		<div class="card-body p-4">
+			<form asp-controller="Barbeiro" asp-action="@(ehEdicao ? "AtualizarBarbeiro" : "CadastrarBarbeiro")" method="post">
 				<input type="hidden" asp-for="IdBarbeiro" />
 
 				<div class="row">
-					<div class="col-12 mb-3">
-						<label asp-for="Nome" class="form-label fw-bold">Nome Completo</label>
-						<input asp-for="Nome" class="form-control" maxlength="100" placeholder="Digite o nome..." />
+					<div class="col-12 mb-4">
+						<label asp-for="Nome" class="form-label fw-bold">
+                            <i class="fa-solid fa-user-tie me-2 text-muted"></i> Nome do Profissional
+                        </label>
+						<input asp-for="Nome" class="form-control shadow-sm border-2" maxlength="100" placeholder="Nome completo do barbeiro" />
+                        <span asp-validation-for="Nome" class="text-danger small"></span>
 					</div>
-					<div class="col-6 mb-3">
-						<label asp-for="Cpf" class="form-label fw-bold">Cpf</label>
-						<input asp-for="Cpf" class="form-control" type="text" maxlength="14" placeholder="000.000.000-00" />
+
+					<div class="col-md-6 mb-4">
+						<label asp-for="Cpf" class="form-label fw-bold">
+                            <i class="fa-solid fa-id-card me-2 text-muted"></i> CPF
+                        </label>
+						<input asp-for="Cpf" class="form-control shadow-sm border-2" type="text" maxlength="14" placeholder="000.000.000-00" />
+                        <span asp-validation-for="Cpf" class="text-danger small"></span>
 					</div>
-					<div class="col-6 mb-3">
-						<label asp-for="Telefone" class="form-label fw-bold">Telefone</label>
-						<input asp-for="Telefone" class="form-control" type="text" maxlength="15" placeholder="(00) 00000-0000" />
+
+					<div class="col-md-6 mb-4">
+						<label asp-for="Telefone" class="form-label fw-bold">
+                            <i class="fa-solid fa-mobile-screen-button me-2 text-muted"></i> Telefone / WhatsApp
+                        </label>
+						<input asp-for="Telefone" class="form-control shadow-sm border-2" type="text" maxlength="15" placeholder="(00) 00000-0000" />
+                        <span asp-validation-for="Telefone" class="text-danger small"></span>
 					</div>
-					<div class="col-12 mb-3">
-						<label asp-for="Email" class="form-label fw-bold">Email</label>
-						<input asp-for="Email" class="form-control" type="text" placeholder="Digite o e-mail" />
+
+					<div class="col-md-8 mb-4">
+						<label asp-for="Email" class="form-label fw-bold">
+                            <i class="fa-solid fa-at me-2 text-muted"></i> E-mail Profissional
+                        </label>
+						<input asp-for="Email" class="form-control shadow-sm border-2" type="email" placeholder="barbeiro@exemplo.com" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
 					</div>
-					<div class="col-12 mb-3">
-						<label asp-for="Salario" class="form-label fw-bold">Salário</label>
-						<input asp-for="Salario" class="form-control" type="number" placeholder="Digite o salário " />
+
+					<div class="col-md-4 mb-4">
+						<label asp-for="Salario" class="form-label fw-bold">
+                            <i class="fa-solid fa-money-bill-wave me-2 text-muted"></i> Salário Base
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-2 border-end-0">R$</span>
+						    <input asp-for="Salario" class="form-control shadow-sm border-2 border-start-0" type="number" step="0.01" />
+                        </div>
+                        <span asp-validation-for="Salario" class="text-danger small"></span>
 					</div>
 				</div>
-				<div class="d-flex gap-2">
-					<form asp-controller="Barbeiro" asp-action="@(ehEdicao ? "AtualizarBarbeiro" : "CadastrarBarbeiro")" method="post">
-					<button type="submit" class="btn btn-outline-secondary px-4 fw-bold">Salvar</button>
-					</form>
-					<a class="btn btn-success px-4 fw-bold" asp-controller="Barbeiro" asp-action="ListarBarbeiros">Voltar</a>
+
+				<div class="pt-3 border-top mt-2 d-flex gap-3">
+					<button type="submit" class="btn btn-dark px-5 fw-bold shadow-sm transition-hover">
+                        <i class="fa-solid fa-save me-2"></i> Salvar Registro
+                    </button>
+					<a asp-controller="Barbeiro" asp-action="ListarBarbeiros" class="btn btn-outline-dark px-4 border-2">
+                        <i class="fa-solid fa-arrow-left me-2"></i> Voltar
+                    </a>
 				</div>
 			</form>
 		</div>

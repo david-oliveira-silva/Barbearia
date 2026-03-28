@@ -11,16 +11,16 @@ namespace WEB.Controllers.Horarios
         private readonly HorarioFachada _horarioFachada = horarioFachada;
         private readonly BarbeiroFachada _barbeiroFachada = barbeiroFachada;
         public IActionResult UpsertHorario(int idHorario)
-        {          
+        {
             ViewModelHorario viewModel = new()
-            {            
+            {
                 Barbeiros = _barbeiroFachada.Listar()
             };
 
             if (idHorario > 0)
-            {             
+            {
                 viewModel.Horario = _horarioFachada.HorarioExiste(idHorario);
-                
+
                 if (viewModel.Horario == null)
                 {
                     TempData["Erro"] = "Horário não encontrado.";
@@ -28,7 +28,7 @@ namespace WEB.Controllers.Horarios
                 }
             }
             else
-            {              
+            {
                 viewModel.Horario = new HorarioModel();
             }
             return View(viewModel);
@@ -94,6 +94,12 @@ namespace WEB.Controllers.Horarios
         public IActionResult ListarHorarios()
         {
             List<HorarioModel> horarios = _horarioFachada.Listar();
+            return View(horarios);
+        }
+
+        public IActionResult HorariosDisponiveis(int idBarbeiro, int diaSemana)
+        {
+            var horarios = _horarioFachada.HorariosDisponiveis(idBarbeiro, (DOMAIN.Enuns.Horario.DiaSemana)diaSemana);
             return View(horarios);
         }
     }

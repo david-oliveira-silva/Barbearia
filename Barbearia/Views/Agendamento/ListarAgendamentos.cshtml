@@ -1,0 +1,62 @@
+﻿@using DOMAIN.Models.Agendamentos
+@model List<AgendamentoModel>
+
+
+@{
+	ViewData["Title"] = "Listar Agendamento";
+}
+
+<div class="Titulo d-flex justify-content-between m-3">
+	<h2 class="text-dark fw-bold">Agendamento Cadastrados</h2>
+	<a asp-controller="Agendamento" asp-action="UpsertAgendamento" class="btn btn-outline-dark fw-bold fs-5">Cadastrar Agendamento</a>
+</div>
+
+<div class="row bg-dark text-white py-3 px-3 rounded-top fw-bold shadow-sm mx-0">
+	<div class="col-1 text-center fs-5">ID</div>
+	<div class="col-2 text-start fs-5">Cliente</div>
+	<div class="col-2 text-start fs-5">Barbeiro</div>
+	<div class="col-1 text-start fs-5">Serviço</div>
+	<div class="col-1 text-start fs-5">Valor</div>
+	<div class="col-1 text-center fs-5">Data</div>
+	<div class="col-1 text-center fs-5">Hórario inicio</div>
+	<div class="col-1 text-center fs-5">Hórario fim</div>
+	<div class="col-2 text-center fs-5">Opções</div>
+</div>
+
+<div class="bg-white shadow-sm rounded-bottom">
+	@foreach (AgendamentoModel agendamento in Model)
+	{
+		<div class="row border-bottom py-3 px-3 align-items-center mx-0">
+			<div class="col-1 text-center text-secondary fw-bold fs-5">
+				@agendamento.IdAgendamento
+			</div>
+			<div class="col-2 text-start fw-semibold fs-5">
+				@agendamento.Clientes?.Nome
+			</div>
+			<div class="col-2 text-start fw-semibold fs-5">
+				@agendamento.Barbeiros?.Nome
+			</div>
+			<div class="col-1 text-start fw-semibold fs-5">
+				@agendamento.Servicos?.Nome
+			</div>
+			<div class="col-1 text-start fw-semibold fs-5">
+				@agendamento.Servicos?.Valor.ToString("C2")
+			</div>
+			<div class="col-1 text-center fw-semibold fs-5">
+				@agendamento.DataAgendamento
+			</div>
+			<div class="col-1 text-center fw-semibold fs-5">
+				@agendamento?.Horarios?.HorarioInicio
+			</div>
+			<div class="col-1 text-center fw-semibold fs-5">
+				@agendamento?.Horarios?.HorarioFim
+			</div>
+
+			<div class="col-2 text-center">
+				<a asp-controller="Agendamento" asp-action="UpsertAgendamento" asp-route-id="@agendamento?.IdAgendamento" class="btn btn-success fw-bold fs-5">Editar</a>
+				<a asp-controller="Agendamento" asp-action="DeletarAgendamento" asp-route-id="@agendamento?.IdAgendamento" class="btn btn-danger fw-bold fs-5">Deletar</a>
+			</div>
+		</div>
+
+	}
+</div>

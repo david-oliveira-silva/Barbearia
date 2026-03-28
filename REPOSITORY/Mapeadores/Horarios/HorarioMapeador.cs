@@ -83,7 +83,7 @@ namespace REPOSITORY.Mapeadores.Horarios
                     DiaSemana = reader.GetDiaSemana("DIASEMANA"),
                     HorarioInicio = reader.GetTimeSpan("HORARIOINICIO"),
                     HorarioFim = reader.GetTimeSpan("HORARIOFIM"),
-                    Ativo = (Ativo)reader.GetInt("ATIVO"),
+                    Ativo = (Ativo)reader.GetDiaSemana("ATIVO"),
                     Barbeiros = new BarbeiroModel
                     {
                         IdBarbeiro = reader.GetInt("IDBARBEIRO"),

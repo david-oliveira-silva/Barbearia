@@ -1,0 +1,63 @@
+﻿@using DOMAIN.Models.ViewModel
+@model ViewModelAgendamento
+@{
+	ViewData["Title"] = "Cadastrar Agendamento";
+}
+
+<div class="Titulo d-flex justify-content-between m-3">
+	<h2 class="text-dark fw-bold">Cadastrar Agendamento</h2>
+	<a asp-controller="Agendamento" asp-action="ListarAgendamentos" class="btn btn-outline-dark fw-bold fs-5">Voltar</a>
+</div>
+
+<div class="bg-white shadow-sm rounded p-3">
+	<form asp-action="UpsertAgendamento" method="post">
+		<input type="hidden" asp-for="Agendamento.IdAgendamento" />
+		<div class="mb-3">
+			<label asp-for="Agendamento.IdCliente" class="form-label">Cliente</label>
+			<select asp-for="Agendamento.IdCliente" class="form-select">
+				<option value="">Selecione um cliente</option>
+				@foreach (var cliente in Model.Clientes)
+				{
+					<option value="@cliente.IdCliente">@cliente.Nome</option>
+				}
+			</select>
+			<span asp-validation-for="Agendamento.IdCliente" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Agendamento.IdBarbeiro" class="form-label">Barbeiro</label>
+			<select asp-for="Agendamento.IdBarbeiro" class="form-select">
+				<option value="">Selecione um barbeiro</option>
+				@foreach (var barbeiro in Model.Barbeiros)
+				{
+					<option value="@barbeiro.IdBarbeiro">@barbeiro.Nome</option>
+				}
+			</select>
+			<span asp-validation-for="Agendamento.IdBarbeiro" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Agendamento.IdServico" class="form-label">Serviço</label>
+			<select asp-for="Agendamento.IdServico" class="form-select">
+				<option value="">Selecione um serviço</option>
+				@foreach (var servico in Model.Servicos)
+				{
+					<option value="@servico.IdServico">@servico.Nome</option>
+				}
+			</select>
+			<span asp-validation-for="Agendamento.IdServico" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Agendamento.IdHorario" class="form-label">Horário</label>
+			<select asp-for="Agendamento.IdHorario" class="form-select">
+				<option value="">Selecione um horário</option>
+				@foreach (var horario in Model.Horarios)
+				{
+					<option value="@horario.IdHorario">@horario</option>
+				}
+			</select>
+			<span asp-validation-for="Agendamento.IdHorario" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<button type="submit" class="btn btn-primary">Salvar</button>
+		</div>
+	</form>
+</div>

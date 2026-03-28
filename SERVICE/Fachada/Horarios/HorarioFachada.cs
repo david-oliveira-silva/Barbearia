@@ -1,4 +1,5 @@
-﻿using DOMAIN.Models.Horarios;
+﻿using DOMAIN.Enuns.Horario;
+using DOMAIN.Models.Horarios;
 using DOMAIN.Validador.Horarios;
 using REPOSITORY.Mapeadores.Horarios;
 using SERVICE.Processo.Horarios;
@@ -61,6 +62,10 @@ namespace SERVICE.Fachada.Horarios
         public HorarioModel? HorarioExiste(int idHorario)
         {
             return _horarioProcesso.HorarioExiste(idHorario);
+        }
+        public List<HorarioModel> HorariosDisponiveis(int idBarbeiro, DiaSemana diaSemana)
+        {
+            return _horarioProcesso.HorariosDisponiveis(idBarbeiro, diaSemana);
         }
     }
 }

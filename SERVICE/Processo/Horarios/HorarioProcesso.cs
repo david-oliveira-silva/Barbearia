@@ -1,4 +1,5 @@
-﻿using DOMAIN.Models.Horarios;
+﻿using DOMAIN.Enuns.Horario;
+using DOMAIN.Models.Horarios;
 using REPOSITORY.Mapeadores.Horarios;
 
 namespace SERVICE.Processo.Horarios
@@ -25,13 +26,19 @@ namespace SERVICE.Processo.Horarios
         public List<HorarioModel> Listar()
         {
             List<HorarioModel> horarios = _horarioMapeador.Listar();
-            return [..horarios.OrderBy(h => h.IdHorario)];
+            return [.. horarios.OrderBy(h => h.IdHorario)];
         }
 
         public HorarioModel? HorarioExiste(int idHorario)
         {
             HorarioModel? horario = _horarioMapeador.Listar().FirstOrDefault(h => h.IdHorario == idHorario);
             return horario;
+        }
+
+        public List<HorarioModel> HorariosDisponiveis(int idBarbeiro, DiaSemana diaSemana)
+        {
+            List<HorarioModel> horarios = [.. _horarioMapeador.Listar().Where(h => h.IdBarbeiro == idBarbeiro && h.DiaSemana == diaSemana)];
+            return horarios;
         }
     }
 }

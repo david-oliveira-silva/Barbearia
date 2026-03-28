@@ -44,5 +44,11 @@ namespace REPOSITORY.UTILS
             int ordinal = reader.GetOrdinal(nomeColuna);
             return reader.IsDBNull(ordinal) ? TimeSpan.Zero : reader.GetFieldValue<TimeSpan>(ordinal);
         }
+
+        public static DateOnly GetDateOnly(this DbDataReader reader, string nomeColuna)
+        {
+            int ordinal = reader.GetOrdinal(nomeColuna);
+            return reader.IsDBNull(ordinal) ? DateOnly.MinValue : reader.GetFieldValue<DateOnly>(ordinal);
+        }
     }
 }

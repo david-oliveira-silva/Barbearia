@@ -1,12 +1,15 @@
 using REPOSITORY.DATA;
+using REPOSITORY.Mapeadores.Agendamentos;
 using REPOSITORY.Mapeadores.Horarios;
 using REPOSITORY.MAPEADORES.BARBEIROS;
 using REPOSITORY.MAPEADORES.Clientes;
 using REPOSITORY.MAPEADORES.SERVICOS;
+using SERVICE.Fachada.Agendamentos;
 using SERVICE.Fachada.Horarios;
 using SERVICE.FACHADA.BARBEIROS;
 using SERVICE.FACHADA.CLIENTES;
 using SERVICE.FACHADA.SERVICOS;
+using SERVICE.Processo.Agendamentos;
 using SERVICE.Processo.Horarios;
 using SERVICE.PROCESSO.BARBEIRO;
 using SERVICE.PROCESSO.CLIENTES;
@@ -40,6 +43,10 @@ builder.Services.AddScoped<ServicosFachada>();
 builder.Services.AddScoped<IHorarioMapeador, HorarioMapeador>();
 builder.Services.AddScoped<HorarioProcesso>();
 builder.Services.AddScoped<HorarioFachada>();
+
+builder.Services.AddScoped<IAgendamentoMapeador, AgendamentoMapeador>();
+builder.Services.AddScoped<AgendamentoProcesso>();
+builder.Services.AddScoped<AgendamentoFachada>();
 
 var app = builder.Build();
 

@@ -1,62 +1,93 @@
-﻿@using DOMAIN.Models.Agendamentos
+@using DOMAIN.Models.Agendamentos
 @model List<AgendamentoModel>
 
-
 @{
-	ViewData["Title"] = "Listar Agendamento";
+	ViewData["Title"] = "Listagem de Agendamentos";
 }
 
-<div class="Titulo d-flex justify-content-between m-3">
-	<h2 class="text-dark fw-bold">Agendamento Cadastrados</h2>
-	<a asp-controller="Agendamento" asp-action="UpsertAgendamento" class="btn btn-outline-dark fw-bold fs-5">Cadastrar Agendamento</a>
-</div>
+<div class="container-fluid mt-4 px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-dark fw-bold mb-0">
+                <i class="fa-solid fa-calendar-list me-2"></i> Agendamentos Realizados
+            </h2>
+            <p class="text-muted mb-0">Gerencie todos os horários marcados na sua barbearia</p>
+        </div>
+        <a asp-controller="Agendamento" asp-action="UpsertAgendamento" class="btn btn-dark btn-lg shadow-sm fw-bold px-4">
+            <i class="fa-solid fa-plus-circle me-2"></i> Novo Agendamento
+        </a>
+    </div>
 
-<div class="row bg-dark text-white py-3 px-3 rounded-top fw-bold shadow-sm mx-0">
-	<div class="col-1 text-center fs-5">ID</div>
-	<div class="col-2 text-start fs-5">Cliente</div>
-	<div class="col-2 text-start fs-5">Barbeiro</div>
-	<div class="col-1 text-start fs-5">Serviço</div>
-	<div class="col-1 text-start fs-5">Valor</div>
-	<div class="col-1 text-center fs-5">Data</div>
-	<div class="col-1 text-center fs-5">Hórario inicio</div>
-	<div class="col-1 text-center fs-5">Hórario fim</div>
-	<div class="col-2 text-center fs-5">Opções</div>
-</div>
-
-<div class="bg-white shadow-sm rounded-bottom">
-	@foreach (AgendamentoModel agendamento in Model)
-	{
-		<div class="row border-bottom py-3 px-3 align-items-center mx-0">
-			<div class="col-1 text-center text-secondary fw-bold fs-5">
-				@agendamento.IdAgendamento
-			</div>
-			<div class="col-2 text-start fw-semibold fs-5">
-				@agendamento.Clientes?.Nome
-			</div>
-			<div class="col-2 text-start fw-semibold fs-5">
-				@agendamento.Barbeiros?.Nome
-			</div>
-			<div class="col-1 text-start fw-semibold fs-5">
-				@agendamento.Servicos?.Nome
-			</div>
-			<div class="col-1 text-start fw-semibold fs-5">
-				@agendamento.Servicos?.Valor.ToString("C2")
-			</div>
-			<div class="col-1 text-center fw-semibold fs-5">
-				@agendamento.DataAgendamento
-			</div>
-			<div class="col-1 text-center fw-semibold fs-5">
-				@agendamento?.Horarios?.HorarioInicio
-			</div>
-			<div class="col-1 text-center fw-semibold fs-5">
-				@agendamento?.Horarios?.HorarioFim
-			</div>
-
-			<div class="col-2 text-center">
-				<a asp-controller="Agendamento" asp-action="UpsertAgendamento" asp-route-id="@agendamento?.IdAgendamento" class="btn btn-success fw-bold fs-5">Editar</a>
-				<a asp-controller="Agendamento" asp-action="DeletarAgendamento" asp-route-id="@agendamento?.IdAgendamento" class="btn btn-danger fw-bold fs-5">Deletar</a>
-			</div>
-		</div>
-
-	}
+    <div class="card shadow border-0 rounded-3">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="text-center py-3" style="width: 80px;">ID</th>
+                            <th class="py-3">Cliente</th>
+                            <th class="py-3">Barbeiro</th>
+                            <th class="py-3">Serviço</th>
+                            <th class="py-3 text-center">Data</th>
+                            <th class="py-3 text-center">Horário</th>
+                            <th class="py-3 text-center">Valor</th>
+                            <th class="text-center py-3" style="width: 180px;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var agendamento in Model)
+                        {
+                            <tr>
+                                <td class="text-center fw-bold text-muted">@agendamento.IdAgendamento</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-light rounded-circle p-2 me-2">
+                                            <i class="fa-solid fa-user text-dark"></i>
+                                        </div>
+                                        <span class="fw-semibold">@agendamento.Clientes?.Nome</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-light rounded-circle p-2 me-2">
+                                            <i class="fa-solid fa-user-tie text-dark"></i>
+                                        </div>
+                                        <span class="fw-semibold">@agendamento.Barbeiros?.Nome</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-medium text-dark">@agendamento.Servicos?.Nome</span>
+                                </td>
+                                <td class="text-center">
+                                    <i class="fa-regular fa-calendar me-1 text-primary"></i> 
+                                    @agendamento.DataAgendamento.ToString("dd/MM/yyyy")
+                                </td>
+                                <td class="text-center fw-bold">
+                                    <i class="fa-regular fa-clock me-1 text-success"></i>
+                                    @agendamento?.Horarios?.HorarioInicio.ToString(@"hh\:mm") às @agendamento?.Horarios?.HorarioFim.ToString(@"hh\:mm")
+                                </td>
+                                <td class="text-center">
+                                    <span class="text-success fw-bold">
+                                        @agendamento.Servicos?.Valor.ToString("C2")
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a asp-controller="Agendamento" asp-action="UpsertAgendamento" asp-route-id="@agendamento?.IdAgendamento" 
+                                           class="btn btn-outline-dark btn-sm px-3 fw-bold shadow-sm">
+                                            <i class="fa-solid fa-pen-to-square"></i> Editar
+                                        </a>
+                                        <a asp-controller="Agendamento" asp-action="DeletarAgendamento" asp-route-id="@agendamento?.IdAgendamento" 
+                                           class="btn btn-danger btn-sm px-3 fw-bold shadow-sm">
+                                            <i class="fa-solid fa-trash-can"></i> Deletar
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

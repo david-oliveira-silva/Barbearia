@@ -1,84 +1,97 @@
-﻿@using DOMAIN.MODELS.BARBEIROS
+@using DOMAIN.MODELS.BARBEIROS
 @model List<BarbeiroModel>
 
-<style>
-	#Filtrar {
-		height: 3.4rem;
-	}
-
-	#Carregar {
-		width: 10rem;
-	}
-
-	#Cadastrar {
-		height: 3.1rem;
-	}
-</style>
 @{
-	ViewData["Title"] = "Lista barbeiros";
+	ViewData["Title"] = "Barbeiros Cadastrados";
 }
 
-@if (TempData["Sucesso"] != null)
-{
-	<p class="alert alert-success">@TempData["Sucesso"]</p>
-}
+<div class="container-fluid mt-4 px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-dark fw-bold mb-0">
+                <i class="fa-solid fa-scissors me-2"></i> Equipe de Barbeiros
+            </h2>
+            <p class="text-muted mb-0">Gerencie os profissionais da sua barbearia</p>
+        </div>
+        <a asp-controller="Barbeiro" asp-action="UpsertBarbeiro" class="btn btn-dark btn-lg shadow-sm fw-bold px-4">
+            <i class="fa-solid fa-user-plus me-2"></i> Novo Profissional
+        </a>
+    </div>
 
-@if (TempData["Erro"] != null)
-{
-	<p class="alert alert-danger">@TempData["Erro"]</p>
-}
+    @if (TempData["Sucesso"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm border-0 mb-4" role="alert">
+            <i class="fa-solid fa-circle-check me-2"></i> @TempData["Sucesso"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 
-<div class="Titulo d-flex justify-content-between m-3">
-	<h2 class="text-dark fw-bold">Barbeiros Cadastrados</h2>
-	<a asp-controller="Barbeiro" asp-action="UpsertBarbeiro" class="btn btn-outline-dark fw-bold fs-5">Cadastrar barbeiro</a>
-</div>
+    <div class="card shadow border-0 rounded-3 mb-4">
+        <div class="card-body p-3">
+            <form asp-controller="Barbeiro" asp-action="ListarBarbeiros" method="get" class="row g-2">
+                <div class="col-md-10">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fa-solid fa-magnifying-glass text-muted"></i>
+                        </span>
+                        <input type="text" name="nome" class="form-control border-start-0 ps-0" placeholder="Buscar por nome do barbeiro..." />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-dark w-100 fw-bold">Pesquisar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-<form asp-controller="Barbeiro" asp-action="ListarBarbeiros" method="get">
-	<div class="d-flex m-3 gap-2">
-		<input type="text" name="nome" class="form-control fs-5" placeholder="Digite o nome do barbeiro..." />
-		<button type="submit" class="btn btn-outline-secondary fs-5 fw-bold">Carregar</button>
-	</div>
-</form>
-
-<div class="row bg-dark text-white py-3 px-3 rounded-top fw-bold shadow-sm mx-0">
-	<div class="col-1 text-center fs-5">ID</div>
-	<div class="col-4 text-start fs-5">Nome</div>
-	<div class="col-1 text-center fs-5">CPF</div>
-	<div class="col-2 text-center fs-5">E-mail</div>
-	<div class="col-2 text-center fs-5">Telefone</div>
-	<div class="col-1 text-center fs-5">Salario</div>
-	<div class="col-1 text-center fs-5">Opções</div>
-</div>
-
-<div class="bg-white shadow-sm rounded-bottom">
-	@foreach (BarbeiroModel barbeiro in Model)
-	{
-		<div class="row border-bottom py-3 px-3 align-items-center mx-0">
-			<div class="col-1 text-center text-secondary fw-bold fs-5">
-				@barbeiro.IdBarbeiro
-			</div>
-			<div class="col-4 text-start fw-semibold fs-5">
-				@barbeiro.Nome
-			</div>
-			<div class="col-1 text-center fw-semibold fs-5">
-				@(!string.IsNullOrEmpty(barbeiro.Cpf) ? long.Parse(barbeiro.Cpf).ToString(@"000\.000\.000-00") : "")
-			</div>
-			<div class="col-2 text-center fw-semibold fs-5">
-				@barbeiro.Email
-			</div>
-			<div class="col-2 text-center fw-semibold fs-5">
-				@(!string.IsNullOrEmpty(barbeiro.Telefone) ? long.Parse(@barbeiro.Telefone).ToString(@"(00) 00000-0000") : "")
-			</div>
-			<div class="col-1 text-center fw-semibold fs-5">
-				@barbeiro.Salario.ToString("C2")
-			</div>
-			<div class="col-1 text-center d-flex gap-1">
-				<a class="btn btn-success fw-bold fs-5" asp-controller="Barbeiro" asp-action="UpsertBarbeiro" asp-route-idBarbeiro="@barbeiro.IdBarbeiro">Editar</a>
-				<form asp-controller="Barbeiro" asp-action="ExcluirBarbeiro" method="post">
-					<input type="hidden" name="IdBarbeiro" value="@barbeiro.IdBarbeiro" />
-					<button class="btn btn-danger fs-5 fw-bold" onclick="return confirm('Deseja realmente excluir o cliente @barbeiro.Nome?')">Excluir</button>
-				</form>
-			</div>
-		</div>
-	}
+    <div class="card shadow border-0 rounded-3">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="text-center py-3" style="width: 80px;">ID</th>
+                            <th class="py-3">Nome do Profissional</th>
+                            <th class="py-3 text-center">CPF</th>
+                            <th class="py-3">E-mail</th>
+                            <th class="py-3 text-center">Telefone</th>
+                            <th class="py-3 text-center">Salário</th>
+                            <th class="text-center py-3" style="width: 200px;">Opções</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var barbeiro in Model)
+                        {
+                            <tr>
+                                <td class="text-center fw-bold text-muted">@barbeiro.IdBarbeiro</td>
+                                <td class="fw-bold text-dark">@barbeiro.Nome</td>
+                                <td class="text-center text-muted">
+                                    @(!string.IsNullOrEmpty(barbeiro.Cpf) ? long.Parse(barbeiro.Cpf).ToString(@"000\.000\.000-00") : "")
+                                </td>
+                                <td><i class="fa-solid fa-envelope me-1 small text-muted"></i> @barbeiro.Email</td>
+                                <td class="text-center">
+                                    <i class="fa-solid fa-phone me-1 small text-muted"></i>
+                                    @(!string.IsNullOrEmpty(barbeiro.Telefone) ? long.Parse(barbeiro.Telefone).ToString(@"(00) 00000-0000") : "")
+                                </td>
+                                <td class="text-center fw-bold text-success">@barbeiro.Salario.ToString("C2")</td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a class="btn btn-outline-dark btn-sm px-3 fw-bold" asp-controller="Barbeiro" asp-action="UpsertBarbeiro" asp-route-idBarbeiro="@barbeiro.IdBarbeiro">
+                                            <i class="fa-solid fa-user-pen"></i> Editar
+                                        </a>
+                                        <form asp-controller="Barbeiro" asp-action="ExcluirBarbeiro" method="post" class="d-inline">
+                                            <input type="hidden" name="IdBarbeiro" value="@barbeiro.IdBarbeiro" />
+                                            <button type="submit" class="btn btn-danger btn-sm px-3 fw-bold" onclick="return confirm('Deseja realmente excluir o barbeiro @barbeiro.Nome?')">
+                                                <i class="fa-solid fa-trash"></i> Excluir
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

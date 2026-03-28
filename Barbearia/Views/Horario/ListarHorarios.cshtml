@@ -1,81 +1,94 @@
-﻿@using DOMAIN.Models.Horarios
-@using DOMAIN.Models.ViewModelHorario
+@using DOMAIN.Models.Horarios
+@using DOMAIN.Enuns.Horario
 @model List<HorarioModel>
+
 @{
-	ViewData["Title"] = "Listar Horários";
+	ViewData["Title"] = "Escala de Horários";
 }
 
-@if (TempData["Sucesso"] != null)
-{
-	<p class="alert alert-success">@TempData["Sucesso"]</p>
-}
+<div class="container-fluid mt-4 px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-dark fw-bold mb-0">
+                <i class="fa-solid fa-clock me-2"></i> Escala de Trabalho
+            </h2>
+            <p class="text-muted mb-0">Configure os horários de atendimento dos seus barbeiros</p>
+        </div>
+        <a asp-controller="Horario" asp-action="UpsertHorario" class="btn btn-dark btn-lg shadow-sm fw-bold px-4">
+            <i class="fa-solid fa-calendar-plus me-2"></i> Definir Novo Horário
+        </a>
+    </div>
 
-@if (TempData["Erro"] != null)
-{
-	<p class="alert alert-danger">@TempData["Erro"]</p>
-}
+    @if (TempData["Sucesso"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm border-0 mb-4" role="alert">
+            <i class="fa-solid fa-circle-check me-2"></i> @TempData["Sucesso"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 
-<style>
-	#Carregar {
-		width: 10rem;
-	}
-
-	#Cadastrar {
-		height: 3.1rem;
-	}
-</style>
-
-<div class="container mt-5" style="max-width: 90%;">
-
-	<div class="Titulo d-flex justify-content-between mb-4">
-		<h2 class="fw-bold">Lista de horários</h2>
-		<a class="btn btn-outline-dark fw-bold fs-5" id="Cadastrar" asp-controller="Horario" asp-action="UpsertHorario">Cadastrar Horário</a>
-	</div>
-
-	<div class="row bg-dark text-white fw-bold py-3 px-3 rounded-top shadow-sm mx-0">
-		<div class="col-1 text-center fs-5">ID</div>
-		<div class="col-4 text-start fs-5">Barbeiro</div>
-		<div class="col-2 text-center fs-5">Dia</div>
-		<div class="col-1 text-center fs-5">Horario Inicio</div>
-		<div class="col-1 text-center fs-5">Horario Fim</div>
-		<div class="col-1 text-center fs-5">Disponibilidade</div>
-		<div class="col-2 text-center fs-5">Opções</div>
-	</div>
-	<div class="bg-white shadow-sm rounded-bottom">
-		@foreach (HorarioModel horario in Model)
-		{
-			<div class="row px-3 py-3 border-bottom">
-
-				<div class="col-1 fs-5 fw-bold text-secondary text-center">
-					@horario?.Barbeiros?.IdBarbeiro
-				</div>
-				<div class="col-4 fs-5 fw-semibold text-start">
-					@horario?.Barbeiros?.Nome
-				</div>
-				<div class="col-2 fs-5 fw-semibold text-center">
-					@horario?.DiaSemana
-				</div>
-				<div class="col-1 fs-5 fw-semibold text-center">
-					@horario?.HorarioInicio
-				</div>
-				<div class="col-1 fs-5 fw-semibold text-center">
-					@horario?.HorarioFim
-				</div>
-				<div class="col-1 fs-5 fw-semibold text-center">
-					@horario?.Ativo
-				</div>
-				<div class="col-2 fs-5 text-secondary text-center d-flex justify-content-center gap-2">
-					<a class="btn btn-success fw-bold fs-5" asp-controller="Horario" asp-action="UpsertHorario" asp-route-IdHorario="@horario?.IdHorario">Editar</a>
-
-					<form asp-controller="Horario" asp-action="ExcluirHorario" method="post">
-						<input type="hidden" name="IdHorario" value="@horario?.IdHorario">
-						<button type="submit" class="btn btn-danger fw-bold fs-5" onclick="return confirm('Deseja realmente excluir o horário do barbeiro @horario?.Barbeiros?.Nome')">Excluir</button>
-					</form>
-				</div>
-			</div>
-		}
-	</div>
+    <div class="card shadow border-0 rounded-3">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="py-3" style="width: 80px;">ID</th>
+                            <th class="py-3 text-start">Barbeiro</th>
+                            <th class="py-3">Dia da Semana</th>
+                            <th class="py-3">Início</th>
+                            <th class="py-3">Término</th>
+                            <th class="py-3">Status</th>
+                            <th class="py-3" style="width: 200px;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var horario in Model)
+                        {
+                            <tr>
+                                <td class="fw-bold text-muted">@horario.IdHorario</td>
+                                <td class="text-start">
+                                    <div class="fw-bold text-dark text-uppercase">@horario?.Barbeiros?.Nome</div>
+                                </td>
+                                <td>
+                                    <span class="badge bg-light text-dark border px-3 py-2 fw-bold fs-6">
+                                        <i class="fa-solid fa-calendar-day me-1 text-primary"></i> @horario?.DiaSemana
+                                    </span>
+                                </td>
+                                <td class="fw-bold text-primary">@horario?.HorarioInicio.ToString(@"hh\:mm")</td>
+                                <td class="fw-bold text-danger">@horario?.HorarioFim.ToString(@"hh\:mm")</td>
+                                <td>
+                                    @if (horario?.Ativo == Ativo.ATIVO)
+                                    {
+                                        <span class="badge bg-success px-3 py-2 rounded-pill shadow-sm">
+                                            <i class="fa-solid fa-check-circle me-1"></i> ATIVO
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger px-3 py-2 rounded-pill shadow-sm">
+                                            <i class="fa-solid fa-times-circle me-1"></i> INATIVO
+                                        </span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a class="btn btn-outline-dark btn-sm px-3 fw-bold" asp-controller="Horario" asp-action="UpsertHorario" asp-route-IdHorario="@horario?.IdHorario">
+                                            <i class="fa-solid fa-pen-nib"></i> Editar
+                                        </a>
+                                        <form asp-controller="Horario" asp-action="ExcluirHorario" method="post" class="d-inline">
+                                            <input type="hidden" name="IdHorario" value="@horario?.IdHorario">
+                                            <button type="submit" class="btn btn-danger btn-sm px-3 fw-bold shadow-sm" onclick="return confirm('Excluir este horário do barbeiro @horario?.Barbeiros?.Nome?')">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-
